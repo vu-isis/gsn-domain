@@ -1,0 +1,9 @@
+GOALS ns_contingency_hazards
+{
+    goal HAZARDS
+    {
+        uuid:"85974a4a-cfa8-4eb2-b25b-8f8e4911f318";
+        info:'''BT correctly prioritizes the tasks in keeping with the above goals  when multiple issues are present''';
+        ref_goal: ns_contingency_obstacle_encounter.OBSTACLE_ENCOUNTER;
+    }
+}

@@ -1,0 +1,33 @@
+CONTEXTS contexts
+{
+    context C1
+    {
+        uuid:"b78ca62b-6bff-4ec8-a05b-e5713532f4a2";
+        summary:'''Operating Role and Context''';
+    }
+    context C2
+    {
+        uuid:"3c45108a-9270-49ac-8116-a20d8b870dbc";
+        summary:'''Control System Definition''';
+    }
+    context C3
+    {
+        uuid:"e3ddd5e9-b195-483b-83cb-137163a2f295";
+        summary:'''Tolerability targets (Ref Z)''';
+    }
+    context C4
+    {
+        uuid:"88a74bab-166a-4bef-b18c-5311be34c95c";
+        summary:'''Hazards identified from FHA (Ref Y)''';
+    }
+    context C5
+    {
+        uuid:"524b326c-3ebe-4191-bbda-31d9b41cfa63";
+        summary:'''SIL Guidelines and Processes''';
+    }
+    context C6
+    {
+        uuid:"46a31a04-a833-4112-ad91-9652dce17547";
+        summary:'''Identified software hazards''';
+    }
+}

@@ -1,0 +1,11 @@
+GOALS ns_perception_obstacle_perception
+{
+    goal OBSTACLE_PERCEPTION
+    {
+        uuid:"5a880874-67cf-4824-81a2-59610911f78b";
+        summary:'''Generate scenarios and test that the obstacles are detected by the forward looking sonar (FLS) and the associated LEC (LEC3)''';
+        info:'''This subtree is defined here, under the Perception''';
+        ref_goal: ns_perception_am.AM_VAE_LEC3;
+        ref_goal: ns_perception_lec3.LEC3;
+    }
+}

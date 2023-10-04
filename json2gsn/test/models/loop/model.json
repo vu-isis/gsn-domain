@@ -1,0 +1,38 @@
+[
+    {
+        "summary": "",
+        "name": "g0",
+        "solvedBy": ["loop/g1"],
+        "id": "loop/g0",
+        "type": "Goal",
+        "uuid": "a9af64e1-f680-432b-8fb8-a2b528fa92bf",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": []
+    },
+    {
+        "summary": "",
+        "name": "g1",
+        "solvedBy": ["loop/g2"],
+        "id": "loop/g1",
+        "type": "Goal",
+        "uuid": "50f1be2d-f8a7-468c-8aae-828c8ab35ccf",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": []
+    },
+    {
+        "summary": "",
+        "name": "g2",
+        "solvedBy": ["loop/g1"],
+        "id": "loop/g2",
+        "type": "Goal",
+        "uuid": "b9af64e1-f680-432b-8fb8-a2b528fa92bf",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": []
+    }
+]

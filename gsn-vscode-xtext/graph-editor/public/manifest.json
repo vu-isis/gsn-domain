@@ -1,0 +1,8 @@
+{
+    "short_name": "Minimal App",
+    "name": "React Material Minimal UI Kit",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+}

@@ -1,0 +1,9 @@
+GOALS ns_contingency_obstacle_encounter
+{
+    goal OBSTACLE_ENCOUNTER
+    {
+        uuid:"19f28ced-7530-419b-ba30-62dce937a2a0";
+        info:'''Obstacle Avoidance functional requirements are satisfied''';
+        ref_goal: ns_contingency_obstacle_avoidance.OBSTACLE_AVOIDANCE;
+    }
+}

@@ -1,0 +1,9 @@
+GOALS ns_perception
+{
+    goal PERCEPTION
+    {
+        uuid:"ecd96ac7-bf1d-412d-9cf1-48107d4fb65c";
+        info:'''Perception is satisfied by the LECs and AMs''';
+        ref_goal: ns_perception_obstacle_perception.OBSTACLE_PERCEPTION;
+    }
+}

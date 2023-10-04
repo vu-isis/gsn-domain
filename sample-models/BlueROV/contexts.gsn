@@ -1,0 +1,35 @@
+CONTEXTS contexts
+{
+    context HW
+    {
+        uuid:"60be4b8c-3d63-4cba-a14d-a339fe3c2cbd";
+        info:'''This context is representing real world hardware related parts only''';
+    }
+    context UUV_DEGRADED
+    {
+        uuid:"f90115b4-18e0-49e7-a410-930dd2877aa8";
+        info:'''UUV has thruster degradation''';
+    }
+    context UUV_NOMINAL
+    {
+        uuid:"9d3f9284-d65a-49e3-bef1-1754bbf19a16";
+        info:'''UUV is nominal - no thruster degradation present''';
+    }
+    context MISSION_PIPE_TRACK
+    {
+        uuid:"cc67da99-c925-40d1-9a1c-41db6624395a";
+        info:'''Current mission is pipe tracking''';
+    }
+    context GROUND_ROVER
+    {
+        uuid:"b8516039-ee13-4cad-b1ad-a5512c08aada";
+        info:'''System is deployed on a ground rover. Nodes, LECs and AMs are the same, but sonar ranges, map resolutions and requirements are different from ROV''';
+        label:ROVER;
+    }
+    context ROV
+    {
+        uuid:"d3025f44-b4cf-494f-99cc-76989b3eb344";
+        info:'''System is deployed on an ROV - baseline setup''';
+        label:UUV;
+    }
+}

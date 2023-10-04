@@ -1,0 +1,9 @@
+GOALS ns_perception_lec3
+{
+    goal LEC3
+    {
+        uuid:"09d9882a-a9c5-47e7-a7d9-cb44b011780f";
+        info:'''LEC3 obstacle perception can identify obstacles''';
+        ref_solution: ns_solution_lec3.generic_artifact_0;
+    }
+}

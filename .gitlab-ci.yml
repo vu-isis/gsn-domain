@@ -1,0 +1,32 @@
+stages:
+    - test
+    - build
+
+vsix-build:
+  stage: build
+  image: openjdk:11
+  services:
+    - docker:dind
+  only: 
+    - tags
+  before_script:
+    - ./gsn-vscode-xtext/gradlew --project-dir ./gsn-vscode-xtext
+  script:
+    - ./gsn-vscode-xtext/gradlew --project-dir ./gsn-vscode-xtext buildVsix --no-daemon
+  artifacts:
+    paths:
+      - ./gsn-vscode-xtext/vscode-extension-self-contained/build/vscode/vscode-extension-self-contained-*.vsix
+
+node-tests:
+  stage: test
+  image: node:gallium
+  services:
+    - docker:dind
+  before_script:
+    - npm --prefix ./gsn-vscode-xtext/graph-editor install
+    - npm --prefix ./json2gsn install
+    - npm --prefix ./gsn-vscode-xtext/vscode-extension-self-contained install
+  script:
+    - npm --prefix ./gsn-vscode-xtext/graph-editor test
+    - npm --prefix ./json2gsn test
+    - npm --prefix ./gsn-vscode-xtext/vscode-extension-self-contained test

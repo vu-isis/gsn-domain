@@ -1,0 +1,8 @@
+SOLUTIONS ns_solution_hardware
+{
+    solution S
+    {
+        uuid:"49ea113e-a988-4c01-85f4-0d60d5ed8f13";
+        info:'''Data generated reveals satisfactory performance of the FLS sensor in reporting the pings from the obstacles while they are in range''';
+    }
+}

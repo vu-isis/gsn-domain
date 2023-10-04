@@ -1,0 +1,31 @@
+.react-flow.react-flow_dark .react-flow__minimap {
+    background-color: #121212;
+}
+
+.react-flow.react-flow_dark .react-flow__attribution {
+    background-color: #121212;
+}
+
+.react-flow.react-flow_dark .react-flow__minimap svg .react-flow__minimap-mask {
+    fill: rgb(84 84 84 / 60%);
+}
+
+.react-flow.react-flow_dark .react-flow__controls button.react-flow__controls-button {
+    background-color: #464646;
+    color: #dddddd;
+    border-bottom: 1px solid #545454;
+}
+
+.react-flow.react-flow_dark .react-flow__controls button.react-flow__controls-button path {
+    fill: currentColor;
+}
+
+.react-flow .react-flow__controls button.react-flow__controls-button {
+    width: 18px;
+    height: 18px;
+}
+
+.react-flow .react-flow__controls button.react-flow__controls-button svg {
+    max-width: 16px;
+    max-height: 16px;
+}

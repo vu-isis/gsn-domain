@@ -1,0 +1,350 @@
+GOALS ns_contingency
+{
+    goal CONTINGENCY
+    {
+        uuid:"d057fa52-09e0-4c37-8f3b-f0ce10f2b404";
+        info:'''Contingency management subsystem - Failsafes, hazards, safey and high level autonomy''';
+        goal HAZARDS
+        {
+            uuid:"21cf8926-1876-42f7-b452-cadfecb25e28";
+            info:'''BT correctly prioritizes the tasks in keeping with the above goals  when multiple issues are present''';
+            goal THRUSTER_DEGRADATION
+            {
+                uuid:"4e404483-ee6a-4e3a-9ad6-74479aec7b83";
+                info:'''Subsystem is satisfactory - FDIR can detect and react accordingly to thruster degradation''';
+                goal FDIR
+                {
+                    uuid:"692ba5f7-2e76-4124-ba80-c4410fd60a15";
+                    label:Degraded;
+                    ref_assumption: assumptions.FDIRSatisfactory;
+                    ref_assumption: assumptions.PerceptionSatisfactory;
+                    ref_solution: ns_perception.PERCEPTION.FDIR.DD_LEC.MILD_THRUST_LOSS.CP2_00_campaigns;
+                    ref_solution: ns_perception.PERCEPTION.FDIR.DD_LEC.MILD_THRUST_LOSS.cp2_00_single_thr_deg_no_reallocation_campaigns;
+                    ref_solution: ns_perception.PERCEPTION.FDIR.DD_LEC.MILD_THRUST_LOSS.cp2_00_wp_campaigns;
+                }
+                ref_assumption: assumptions.OneThrusterDegredation;
+            }
+            goal REALTIME_REACHABILITY
+            {
+                uuid:"28a77ae3-34c3-43ae-93c5-cfc790d99ee2";
+                info:'''RtReach is predicting UUV movement into the future and checks obstacle map 
+                        for possible reachability issues, eg. collision with obstacle or breach of a no go zone''';
+                ref_assumption: assumptions.PoseSatisfactory;
+                goal RTREACH_NOMINAL
+                {
+                    uuid:"6720fc51-8d03-47c4-88a3-09c87add0c2c";
+                    info:'''UUV is nomial - RtReach is using nominal system model''';
+                    label:Nominal;
+                    ref_context: contexts.UUV_NOMINAL;
+                    ref_assumption: assumptions.NominalSystem;
+                    solution CP1_00_rtreach
+                    {
+                        uuid:"c0230b81-58c0-4b52-80b6-c6ecc90d3e8e";
+                        summary:'''src/vandy_bluerov/scripts/cp1_00_rtreach.sh''';
+                    }
+                }
+                goal RTREACH_DEGRADED
+                {
+                    uuid:"681d5597-98a4-41d1-bc87-1134f6f94c36";
+                    info:'''UUV is in degraded condition - RtReach is using FDIR information for degraded system model''';
+                    label:Degraded;
+                    ref_context: contexts.UUV_DEGRADED;
+                    ref_assumption: assumptions.FDIRSatisfactory;
+                    ref_assumption: assumptions.SystemDegraded;
+                    ref_assumption: assumptions.ReallocSatisfactory;
+                    ref_solution: RTREACH_NOMINAL.CP1_00_rtreach;
+                }
+            }
+            goal SENSOR_FAILURE
+            {
+                uuid:"242b4346-9b04-459d-a65e-d0900a900ea9";
+                info:'''Whem sensor failure is detected UUV goes to the surface''';
+                ref_assumption: assumptions.DetectSensorFailure;
+                ref_assumption: assumptions.SatisfactorySensors;
+            }
+            goal OBSTACLE_ENCOUNTER
+            {
+                uuid:"c1446c77-a119-4e73-85fc-d7c5dcd1f780";
+                info:'''Obstacle Avoidance functional requirements are satisfied''';
+                goal OBSTACLE_AVOIDANCE
+                {
+                    uuid:"e4a163e7-f090-4202-989e-9d22da00c4e2";
+                    info:'''Snapshot based avoidance logic based on obstacle map and UUV pose''';
+                    ref_assumption: assumptions.ObstacleDetected;
+                    ref_assumption: assumptions.FLSSatisfactory;
+                    ref_assumption: assumptions.LEC3AMSatisfactory;
+                    ref_assumption: assumptions.ObstacleAvoided;
+                    ref_assumption: assumptions.PerceptionSatisfactory;
+                    goal OBSTACLE_PERCEPTION
+                    {
+                        uuid:"d0178e0d-2533-4dfe-a2b8-3ba4f868d5d0";
+                        summary:'''Obstacle perception is satisfactory''';
+                        info:'''Generate scenarios and test that the obstacles are detected by the forward looking sonar (FLS) and the associated LEC (LEC3)''';
+                        ref_assumption: assumptions.FLSSatisfactory;
+                        ref_assumption: assumptions.LEC3AMSatisfactory;
+                        ref_assumption: assumptions.PerceptionSatisfactory;
+                    }
+                    goal REALTIME_REACHABILITY
+                    {
+                        uuid:"d425f70c-09ab-4f21-bc6b-e7486a99618f";
+                        info:'''RtReach performs well to perceive and avoid obstacles''';
+                        label:Degraded;
+                        ref_assumption: assumptions.RTReachSatisfactory;
+                        solution S1
+                        {
+                            uuid:"a29fe8d9-d310-4479-9188-a364af30eae1";
+                            info:'''Based on the simulation tests, the obstacle avoidance subsystem works as required. RtReach test - LongTerm RtReach is safe''';
+                            label:Degraded;
+                        }
+                        solution S2
+                        {
+                            uuid:"c9fd9e6e-d94a-4886-87e2-a0f225537a45";
+                            label:Nominal;
+                        }
+                    }
+                    goal ESTOP
+                    {
+                        uuid:"a6c9b5e7-bb89-4378-af69-befabf06df40";
+                        info:'''Emergency Braking works to keep the UUV safe in situations where the obstacle is not detected in advance''';
+                        ref_assumption: assumptions.ObstacleDetected;
+                        solution S
+                        {
+                            uuid:"8d007d9e-d1d5-4fa1-a879-8842faebf175";
+                            info:'''Gathered data and computed metrics reveal that the emergency braking operation works reasonably. E-brake tests with different obstacle density, UUV stops at a safe distance''';
+                        }
+                    }
+                    goal OBSTACLE_MAPPING
+                    {
+                        uuid:"6079501f-c541-446d-9c0e-73b4d068d637";
+                        info:'''Obstacle mapping is sufficiently accurate to support avoidance control''';
+                        ref_assumption: assumptions.PerceptionSatisfactory;
+                        solution S
+                        {
+                            uuid:"871d9afa-517a-4412-87c6-564a0d3b4dc3";
+                            info:'''Gathered data and computed metrics reveal that the obstacles mapping is accurate enough to support avoidance control. Obstacle mapping vs GT plot & metric/post process''';
+                        }
+                    }
+                    goal OBSTACLE_AVOIDANCE_SNAPSHOT
+                    {
+                        uuid:"e9753ea9-c431-4d2b-8848-135d1b5214a1";
+                        info:'''Obstacle avoidance control has been implemented to account for changes in the obstacle map and avoid obstacles with sufficient separation''';
+                        label:Degraded;
+                        ref_assumption: assumptions.ObstacleDetected;
+                        ref_assumption: assumptions.PerceptionSatisfactory;
+                        solution S1
+                        {
+                            uuid:"66dfc3b0-94d3-4fa7-bd5a-fadc0fa62580";
+                            info:'''Gathered data and computed metrics reveal that the avoidance logic is satisfactory. Random obstacle - UUV ground truth distance considered safe / over the safety threshold''';
+                            label:Nominal;
+                        }
+                        solution S2
+                        {
+                            uuid:"2446b1f0-cbeb-4be7-99c5-86f0012cb8cb";
+                            label:Degraded;
+                        }
+                    }
+                }
+                ref_solution: ns_perception.PERCEPTION.OBSTACLE_PERCEPTION.LEC3.CP1_04_obstacles;
+            }
+        }
+        goal SAFETY
+        {
+            uuid:"bf3564b5-f6f9-44e9-9738-576835989bac";
+            info:'''High level autonomy & contingency management''';
+            goal FAILSAFES
+            {
+                uuid:"303ed766-0b66-406c-b4a8-13ab91a414c6";
+                info:'''Violation or Triggering of failsafes are detected and managed''';
+                goal LOW_BATTERY
+                {
+                    uuid:"aee2fde0-7cda-4c5d-8437-cb54335eb24c";
+                    info:'''Low battery level failsafe is triggered when battery reaches critically low level, triggering automatic Surface action''';
+                    ref_goal: ns_mission.MISSION.GENERAL.SETPOINT_CONTROLLER;
+                    ref_assumption: assumptions.SatisfactorySensors;
+                    solution Test_results
+                    {
+                        uuid:"9b8fe678-f997-480d-ae9f-408858fa4822";
+                        info:'''Test results and verification confirm that the BT responds appropriately to the low battery failsafe''';
+                    }
+                    ref_solution: ns_hardware.HARDWARE.SENSORS.SSS.CP1_03_batt_low;
+                }
+                goal RETURN_TO_HOME
+                {
+                    uuid:"f0d8e104-fe56-40c6-9505-95b6a0e5676e";
+                    ref_goal: ns_mission.MISSION.GENERAL.SETPOINT_CONTROLLER;
+                    ref_assumption: assumptions.PoseSatisfactory;
+                    solution Test_results
+                    {
+                        uuid:"fcaae01f-404c-4f5c-b31c-61b536e90727";
+                        info:'''Test results and verification confirm that the BT responds appropriately to the low battery failsafe''';
+                    }
+                    ref_solution: ns_hardware.HARDWARE.SENSORS.SSS.CP1_00;
+                    ref_solution: HAZARDS.REALTIME_REACHABILITY.RTREACH_NOMINAL.CP1_00_rtreach;
+                    ref_solution: GEOFENCE.CP1_01_Geofence;
+                    ref_solution: ns_perception.PERCEPTION.OBSTACLE_PERCEPTION.LEC3.CP1_04_obstacles;
+                    ref_solution: ns_hardware.HARDWARE.SENSORS.SSS.CP1_03_batt_low;
+                    ref_solution: BEHAVIOR_TREE.CONTINGENCY_MANAGEMENT.FAILSAFES.CP1_05_multi_fs;
+                }
+                goal PIPE_LOST
+                {
+                    uuid:"00e6f970-71f5-4c6d-97f1-6a575c3c0061";
+                    info:'''Loss of Pipe can be detected - Pipe perception subsystem is operational''';
+                    ref_assumption: assumptions.PoseSatisfactory;
+                    ref_assumption: assumptions.LEC2AMSatisfactory;
+                    ref_assumption: assumptions.SSSSatisfactory;
+                    ref_context: contexts.MISSION_PIPE_TRACK;
+                    solution Test_results
+                    {
+                        uuid:"11b4a87a-d043-426d-8973-6d3d4196bfde";
+                        info:'''Test results and verification confirm that the BT responds appropriately to the low battery failsafe''';
+                    }
+                    ref_solution: HAZARDS.REALTIME_REACHABILITY.RTREACH_NOMINAL.CP1_00_rtreach;
+                }
+                goal SURFACE
+                {
+                    uuid:"d1beed8a-db2c-4307-ae57-78358f907571";
+                    info:'''UUV reaches the surface at the end of the mission, or after RTH, or triggered by low battery failsafe''';
+                    ref_goal: ns_mission.MISSION.GENERAL.SETPOINT_CONTROLLER;
+                    ref_assumption: assumptions.SystemDegraded;
+                    ref_assumption: assumptions.NominalSystem;
+                    solution Test_results
+                    {
+                        uuid:"c5070b4a-a26d-4663-bafd-82ccdf10c034";
+                        info:'''Test results and verification confirm that the BT responds appropriately to the surface command''';
+                    }
+                    ref_solution: BEHAVIOR_TREE.CONTINGENCY_MANAGEMENT.FAILSAFES.CP1_05_multi_fs;
+                    ref_solution: ns_hardware.HARDWARE.SENSORS.SSS.CP1_03_batt_low;
+                    ref_solution: GEOFENCE.CP1_01_Geofence;
+                }
+                goal SENSOR_LOSS
+                {
+                    uuid:"7f799de9-a5e1-4e54-a62f-8ee19e819499";
+                    info:'''  Sensor loss failsafe is detected and appropriate actions are taken''';
+                    ref_goal: ns_mission.MISSION.GENERAL.SETPOINT_CONTROLLER;
+                    ref_assumption: assumptions.SystemDegraded;
+                    ref_assumption: assumptions.NominalSystem;
+                    solution Test_results
+                    {
+                        uuid:"bae9f71f-942e-44f5-85c6-20f2bc9e6198";
+                        info:'''Test results and verification confirm that the BT commands and guides the UUV when presented with a sensor loss failsafe''';
+                    }
+                }
+                goal GEOFENCE
+                {
+                    uuid:"9ec10c13-327b-4419-bede-e01cb0ebaad9";
+                    info:''' Geofence breach failsafe is recognized and handled appropriately''';
+                    ref_goal: ns_mission.MISSION.GENERAL.SETPOINT_CONTROLLER;
+                    ref_assumption: assumptions.SystemDegraded;
+                    ref_assumption: assumptions.NominalSystem;
+                    solution CP1_01_Geofence
+                    {
+                        uuid:"5ebc63e6-eb8b-4b17-8d2d-29d05048b752";
+                        summary:'''Pipeline tracking scenario with Geofence failsafe triggering and RTH contingency action''';
+                        info:'''Test results and verification confirm that the BT commands and guides the UUV appropriately to the geofence breach failsafehggfdgfdgf''';
+                    }
+                }
+                goal ESTOP
+                {
+                    uuid:"67d1caa1-1f03-4f95-ba50-fbff93cc493f";
+                    info:''' Obstacle standoff failsafe is handled appropriately to keep UUV safe''';
+                    ref_goal: ns_mission.MISSION.GENERAL.SETPOINT_CONTROLLER;
+                    ref_assumption: assumptions.SystemDegraded;
+                    ref_assumption: assumptions.NominalSystem;
+                    ref_goal: ns_hardware.HARDWARE.SENSORS.FLS;
+                    solution Test_results
+                    {
+                        uuid:"ffd1e365-0ea3-4e7d-9e08-990243c6d627";
+                        info:'''Test results and verification confirm that the BT commands the UUV for emergency stop''';
+                    }
+                    ref_solution: HAZARDS.REALTIME_REACHABILITY.RTREACH_NOMINAL.CP1_00_rtreach;
+                }
+            }
+            goal BEHAVIOR_TREE
+            {
+                uuid:"dc422189-25c4-4b07-b00d-1fcfa99743b3";
+                info:'''BT prioritizes tasks with the objective of doing no harm, keeping the UUV safe, completing the mission''';
+                goal MISSION_EXECUTION
+                {
+                    uuid:"ae393c7f-109b-45f8-89b9-c38b83989ef0";
+                    goal MISSION_SERVER
+                    {
+                        uuid:"5cc5918f-899c-4958-8232-42b385ada77f";
+                        info:'''Mission server node in BT can properly load and interpret missions''';
+                        goal MISSION_FILE
+                        {
+                            uuid:"56dba733-d1fd-4330-b6a7-a6cba99659e4";
+                            info:'''Mission file is valid, parameters can be loaded accordingly''';
+                            ref_solution: MISSION_LOGIC.All_scenarios1;
+                        }
+                        goal MISSION_LIMITS
+                        {
+                            uuid:"54bf990e-e883-4a0e-a2e7-39dbbb593024";
+                            info:'''Mission limits (eg. geofence) are valid, parameters can be loaded accordingly''';
+                            ref_solution: MISSION_LOGIC.All_scenarios1;
+                        }
+                        goal END_OF_MISSION_ACTION
+                        {
+                            uuid:"25f32145-884b-47ec-abbb-5ff0788070a2";
+                            info:'''End-of-mission action is valid (eg. RTH), parameters can be loaded accordingly''';
+                            ref_solution: MISSION_LOGIC.All_scenarios1;
+                        }
+                    }
+                    goal MISSION_LOGIC
+                    {
+                        uuid:"8396f102-69e7-416b-a100-4d5a2ae4c409";
+                        solution All_scenarios1
+                        {
+                            uuid:"688fb2da-143d-4677-abe0-64b85be50807";
+                        }
+                    }
+                }
+                goal CONTINGENCY_MANAGEMENT
+                {
+                    uuid:"8afc04aa-cfde-4d78-9799-60820fa91bd6";
+                    info:'''BT handles hazards, failsafes and faults accordingly''';
+                    goal FDIR
+                    {
+                        uuid:"cff8ee4a-d694-4463-b67a-276f5c450343";
+                        info:'''FDIR related to UUV control is handled while dealing with failsafes and hazards''';
+                        solution Test_results
+                        {
+                            uuid:"449975fd-fc21-484e-bc0c-b3e367cd4039";
+                            info:'''Tests results and verification checks confirm that FDIR for UUV control is always performed while handling other issues''';
+                        }
+                        ref_solution: ns_perception.PERCEPTION.FDIR.DD_LEC.MILD_THRUST_LOSS.CP2_00_campaigns;
+                        ref_solution: ns_perception.PERCEPTION.FDIR.DD_LEC.dd_lec_task;
+                        ref_solution: ns_perception.PERCEPTION.FDIR.CONTROL_REALLOCATION.task_reallocate;
+                    }
+                    goal FAILSAFES
+                    {
+                        uuid:"923ac301-24c1-4dea-a1df-635942f3d99f";
+                        info:'''Reaction to failsafes is prioritized by keeping the UUV safe in the presence of hazards''';
+                        solution CP1_05_multi_fs
+                        {
+                            uuid:"cd9995c8-f9eb-408c-81e4-175428bea867";
+                            summary:'''src/vandy_bluerov/scripts/cp1_05_multi_fs.sh''';
+                            info:'''Tests results and verification checks confirm that reactions to failsafes are prioritized while keeping the UUV safe from hazards''';
+                        }
+                    }
+                    goal HAZARDS
+                    {
+                        uuid:"2ecd0090-0e6c-401b-93a5-651bbeb2379b";
+                        info:'''Reaction to eliminate the risk from hazards that present safety issues to UUV (e.g. avoid No-go-zones or obstacles) are prioritized over hazards that are related to mission continuation (e.g. pipe recovery)''';
+                        solution Test_results
+                        {
+                            uuid:"9a959fda-071f-43cb-a18c-53d2abedf573";
+                            info:'''Tests results and verification checks confirm that reactions to safety related hazards are prioritized over mission related ones''';
+                        }
+                        ref_goal: HAZARDS.OBSTACLE_ENCOUNTER;
+                        ref_goal: FAILSAFES.GEOFENCE;
+                    }
+                }
+                assumption QUESTION
+                {
+                    uuid:"b92f50b2-1947-47ff-991d-a8cf37ba851c";
+                    summary:'''This probably doesn`t need children, only refs (or just solutions)''';
+                }
+            }
+        }
+    }
+}

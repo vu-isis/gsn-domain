@@ -1,0 +1,45 @@
+task copyApplication(type: Sync) {
+    def installDistTask = project(':edu.vanderbilt.isis.caid.assurancedsl.ide').tasks.installDist
+    dependsOn installDistTask
+    from installDistTask.outputs
+    into 'src/gsn'
+}
+
+clean {
+    doLast {
+        delete copyApplication.outputs
+    }
+}
+
+npmInstall.dependsOn copyApplication
+
+task buildVsix(type: Exec, dependsOn: vscodeExtension) {
+    commandLine 'echo'
+    args "'Built VSIX at ${vscodeExtension.destPath}'"
+}
+
+task installExtension(type: Exec, dependsOn: vscodeExtension) {
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        commandLine 'code.cmd'
+    } else {
+        commandLine 'code'
+    }
+    args '--install-extension', vscodeExtension.destPath
+}
+
+task startCode(type:Exec, dependsOn: installExtension) {
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        commandLine 'code.cmd'
+    } else {
+        commandLine 'code'
+    }
+    args "$rootProject.projectDir/demo/", '--new-window'
+}
+
+task publish(dependsOn: vscodeExtension, type: NodeTask) {
+    script = file("$rootProject.projectDir/node_modules/vsce/out/vsce")
+    args = [ 'publish', '-p', System.getenv('ACCESS_TOKEN'), "--packagePath", "${project.buildDir}/vscode/vscode-extension-self-contained-${project.version}.vsix"]
+    execOverrides {
+        workingDir = projectDir
+    }
+}

@@ -1,0 +1,8 @@
+SOLUTIONS ns_solution_lec3
+{
+    solution generic_artifact_0
+    {
+        uuid:"75a59448-9723-4469-95bd-155c96111d08";
+        info:'''Generic artifacts, valid for every context without any label''';
+    }
+}

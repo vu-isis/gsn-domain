@@ -1,0 +1,274 @@
+[
+    {
+        "summary": "Operating Role and Context",
+        "name": "C1",
+        "id": "contexts/C1",
+        "type": "Context",
+        "uuid": "b78ca62b-6bff-4ec8-a05b-e5713532f4a2",
+        "info": "",
+        "artifacts": [],
+        "labels": []
+    },
+    {
+        "summary": "Control System Definition",
+        "name": "C2",
+        "id": "contexts/C2",
+        "type": "Context",
+        "uuid": "3c45108a-9270-49ac-8116-a20d8b870dbc",
+        "info": "",
+        "artifacts": [],
+        "labels": []
+    },
+    {
+        "summary": "Tolerability targets (Ref Z)",
+        "name": "C3",
+        "id": "contexts/C3",
+        "type": "Context",
+        "uuid": "e3ddd5e9-b195-483b-83cb-137163a2f295",
+        "info": "",
+        "artifacts": [],
+        "labels": []
+    },
+    {
+        "summary": "Hazards identified from FHA (Ref Y)",
+        "name": "C4",
+        "id": "contexts/C4",
+        "type": "Context",
+        "uuid": "88a74bab-166a-4bef-b18c-5311be34c95c",
+        "info": "",
+        "artifacts": [],
+        "labels": []
+    },
+    {
+        "summary": "SIL Guidelines and Processes",
+        "name": "C5",
+        "id": "contexts/C5",
+        "type": "Context",
+        "uuid": "524b326c-3ebe-4191-bbda-31d9b41cfa63",
+        "info": "",
+        "artifacts": [],
+        "labels": []
+    },
+    {
+        "summary": "Identified software hazards",
+        "name": "C6",
+        "id": "contexts/C6",
+        "type": "Context",
+        "uuid": "46a31a04-a833-4112-ad91-9652dce17547",
+        "info": "",
+        "artifacts": [],
+        "labels": []
+    },
+    {
+        "summary": "Control System is acceptably safe to operate",
+        "name": "G1",
+        "solvedBy": [
+            "main/G1/G2",
+            "SIL/G3"
+        ],
+        "id": "main/G1",
+        "type": "Goal",
+        "uuid": "6d1ee194-9e12-4927-b035-90c0e251c9ee",
+        "info": "",
+        "artifacts": [],
+        "labels": ["G4"],
+        "inContextOf": [
+            "contexts/C1",
+            "contexts/C2"
+        ]
+    },
+    {
+        "summary": "All identified hazards have been eliminated or sufficiently mitigated",
+        "name": "G2",
+        "solvedBy": ["main/G1/G2/S1"],
+        "id": "main/G1/G2",
+        "type": "Goal",
+        "uuid": "a0317e3d-7396-47d7-a560-fa4e49ec1a10",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": [
+            "contexts/C3",
+            "contexts/C4"
+        ]
+    },
+    {
+        "summary": "Argument over each identified hazards",
+        "name": "S1",
+        "solvedBy": [
+            "main/G1/G2/S1/G4",
+            "main/G1/G2/S1/G5",
+            "main/G1/G2/S1/G6"
+        ],
+        "id": "main/G1/G2/S1",
+        "type": "Strategy",
+        "uuid": "f4cd88ae-eb12-4f0b-a154-74fc0ed11637",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": ["main/G1/G2/S1/A1"]
+    },
+    {
+        "summary": "All hazards have been identified",
+        "name": "A1",
+        "id": "main/G1/G2/S1/A1",
+        "type": "Assumption",
+        "uuid": "d256ebec-c04e-49ae-a506-227d4ac81e4a",
+        "info": "",
+        "artifacts": [],
+        "labels": []
+    },
+    {
+        "summary": "Hazard H1 has been eliminated",
+        "name": "G4",
+        "solvedBy": ["main/G1/G2/S1/G4/Sn1"],
+        "id": "main/G1/G2/S1/G4",
+        "type": "Goal",
+        "uuid": "4b40c8d0-d993-412d-91c5-28dc3bf29118",
+        "info": "",
+        "artifacts": [],
+        "labels": ["G4"],
+        "inContextOf": []
+    },
+    {
+        "summary": "Formal Verification",
+        "name": "Sn1",
+        "id": "main/G1/G2/S1/G4/Sn1",
+        "type": "Solution",
+        "uuid": "31ba73df-2fe3-4fff-b2b8-1422b43b765d",
+        "info": "",
+        "artifacts": ["http://my-storage.org/artifacts/formal_verf.zip"],
+        "labels": [],
+        "status": "Approved"
+    },
+    {
+        "summary": "Probability of Hazard H2 occuring < 1x10-6 per year",
+        "name": "G5",
+        "solvedBy": ["main/G1/G2/S1/G5/Sn2"],
+        "id": "main/G1/G2/S1/G5",
+        "type": "Goal",
+        "uuid": "bd068268-8e8f-4362-939f-46f27eadd075",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": []
+    },
+    {
+        "summary": "Fault Tree Analysis",
+        "name": "Sn2",
+        "id": "main/G1/G2/S1/G5/Sn2",
+        "type": "Solution",
+        "uuid": "d1a61882-4f9c-4525-bc9e-5b4c43a56846",
+        "info": "",
+        "artifacts": ["http://my-storage.org/artifacts/fault-tree.zip"],
+        "labels": [],
+        "status": "Disapproved"
+    },
+    {
+        "summary": "Probability of Hazard H3 occuring < 1x10-3 per year",
+        "name": "G6",
+        "solvedBy": ["main/G1/G2/S1/G5/Sn2"],
+        "id": "main/G1/G2/S1/G6",
+        "type": "Goal",
+        "uuid": "2442e464-348b-4290-bdc7-5f7f69842196",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": []
+    },
+    {
+        "summary": "Software adheres to SIL",
+        "name": "G3",
+        "solvedBy": ["SIL/G3/S2"],
+        "id": "SIL/G3",
+        "type": "Goal",
+        "uuid": "29b85156-98e3-44ed-80d0-a1d646699e9e",
+        "info": "Software in the Control System has been developed to SIL appropriate to hazards involved",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": [
+            "contexts/C4",
+            "contexts/C5"
+        ]
+    },
+    {
+        "summary": "Argument over allocated SIL for Primary and Secondary elements",
+        "name": "S2",
+        "solvedBy": [
+            "SIL/G3/S2/G7",
+            "SIL/G3/S2/G8"
+        ],
+        "id": "SIL/G3/S2",
+        "type": "Strategy",
+        "uuid": "6d8f9107-c819-4168-9bb1-a70a03052ce9",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": [
+            "contexts/C6",
+            "SIL/G3/S2/J1"
+        ]
+    },
+    {
+        "summary": "Primary Protection System Developed to SIL 4",
+        "name": "G7",
+        "solvedBy": ["SIL/G3/S2/G7/Sn3"],
+        "id": "SIL/G3/S2/G7",
+        "type": "Goal",
+        "uuid": "139f80ce-cb0d-479c-b608-2100d559a785",
+        "info": "",
+        "artifacts": [],
+        "labels": ["SIL4"],
+        "inContextOf": []
+    },
+    {
+        "summary": "Process Evidence for SIL 4",
+        "name": "Sn3",
+        "id": "SIL/G3/S2/G7/Sn3",
+        "type": "Solution",
+        "uuid": "085e4c24-333c-4edc-8a40-39e73dd81c9e",
+        "info": "",
+        "artifacts": ["sil://process-evidence4"],
+        "labels": [],
+        "status": "Approved"
+    },
+    {
+        "summary": "Secondary Protection System Developed to SIL 2",
+        "name": "G8",
+        "solvedBy": ["SIL/G3/S2/G8/Sn4"],
+        "id": "SIL/G3/S2/G8",
+        "type": "Goal",
+        "uuid": "0d7ddd25-0964-4606-9579-bbc394e6ff94",
+        "info": "",
+        "artifacts": [],
+        "labels": [
+            "SIL1",
+            "SIL2"
+        ],
+        "inContextOf": []
+    },
+    {
+        "summary": "Process Evidence for SIL 2",
+        "name": "Sn4",
+        "id": "SIL/G3/S2/G8/Sn4",
+        "type": "Solution",
+        "uuid": "6594fc27-a06b-4eb4-b756-7d0a88959159",
+        "info": "",
+        "artifacts": [
+            "sil://process-evidence4",
+            "antoher_artie"
+        ],
+        "labels": [],
+        "status": "NotReviewed"
+    },
+    {
+        "summary": "SIL apportionment is correct and complete",
+        "name": "J1",
+        "id": "SIL/G3/S2/J1",
+        "type": "Justification",
+        "uuid": "c969296b-5cdd-4666-b020-18793a8c744b",
+        "info": "",
+        "artifacts": [],
+        "labels": []
+    }
+]

@@ -1,0 +1,5 @@
+include 'edu.vanderbilt.isis.caid.assurancedsl'
+include 'edu.vanderbilt.isis.caid.assurancedsl.ide'
+include 'edu.vanderbilt.isis.caid.assurancedsl.web'
+include 'vscode-extension'
+include 'vscode-extension-self-contained'

@@ -1,0 +1,95 @@
+{
+    "name": "gsn-graph-editor",
+    "author": "github.com/pmeijer",
+    "licence": "MIT",
+    "version": "0.1.0",
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "jest --config jest.config.js",
+        "eject": "react-scripts eject",
+        "lint": "eslint --ext .js,.jsx ./src",
+        "lint:fix": "eslint --fix --ext .js,.jsx ./src",
+        "clear-all": "rm -rf build node_modules",
+        "re-start": "rm -rf build node_modules && yarn install && yarn start",
+        "re-build": "rm -rf build node_modules && yarn install && yarn build"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app"
+        ]
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-react",
+            [
+                "@babel/preset-env",
+                {
+                    "targets": {
+                        "node": "current"
+                    }
+                }
+            ]
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "dependencies": {
+        "@emotion/react": "^11.10.4",
+        "@emotion/styled": "^11.11.0",
+        "@mui/icons-material": "^5.11.16",
+        "@mui/lab": "^5.0.0-alpha.127",
+        "@mui/material": "^5.13.6",
+        "crypto": "^1.0.1",
+        "cytoscape": "^3.23.0",
+        "cytoscape-cise": "^1.0.0",
+        "cytoscape-popper": "^2.0.0",
+        "dagre": "^0.8.5",
+        "date-fns": "^2.29.3",
+        "debounce": "^1.2.1",
+        "fast-json-patch": "^3.1.1",
+        "html-to-image": "^1.11.11",
+        "immer": "^9.0.19",
+        "prop-types": "^15.8.1",
+        "react": "^18.2.0",
+        "react-ace": "^10.1.0",
+        "react-cytoscapejs": "^2.0.0",
+        "react-dom": "^18.2.0",
+        "react-scripts": "^5.0.1",
+        "reactflow": "^11.5.6",
+        "use-debounce": "^9.0.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.19.3",
+        "@babel/eslint-parser": "^7.19.1",
+        "@babel/preset-env": "^7.20.2",
+        "@babel/preset-react": "^7.18.6",
+        "@svgr/webpack": "^6.5.0",
+        "@types/jest": "^29.5.0",
+        "eslint": "^8.25.0",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-react-app": "^7.0.1",
+        "eslint-plugin-flowtype": "^8.0.3",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-jsx-a11y": "^6.6.1",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-react": "^7.31.10",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "jest": "^27.5.1",
+        "prettier": "^2.7.1"
+    },
+    "overrides": {
+        "@svgr/webpack": "^6.5.0"
+    }
+}

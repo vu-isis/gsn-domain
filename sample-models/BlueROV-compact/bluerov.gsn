@@ -1,0 +1,11 @@
+GOALS ns_bluerov
+{
+    goal BLUEROV
+    {
+        uuid:"8285a453-386f-409d-8fc2-3c864072ae1e";
+        info:'''BlueROV system ROOT''';
+        ref_goal: ns_hardware.HARDWARE;
+        ref_goal: ns_perception.PERCEPTION;
+        ref_goal: ns_contingency.CONTINGENCY;
+    }
+}

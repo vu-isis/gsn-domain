@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Degraded",
+    "description": "",
+    "isGroup": false
+  },
+  {
+    "name": "Label1",
+    "description": "",
+    "isGroup": false
+  },
+  {
+    "name": "Label2",
+    "description": "",
+    "isGroup": false
+  },
+  {
+    "name": "Nominal",
+    "description": "",
+    "isGroup": false
+  },
+  {
+    "name": "ROVER",
+    "description": "",
+    "isGroup": false
+  },
+  {
+    "name": "State",
+    "description": "Operation mode",
+    "isGroup": true,
+    "parent": null,
+    "members": [
+      "Degraded",
+      "Nominal"
+    ]
+  },
+  {
+    "name": "Type",
+    "description": "vehicle type",
+    "isGroup": true,
+    "parent": null,
+    "members": [
+      "ROVER",
+      "UUV"
+    ]
+  },
+  {
+    "name": "UUV",
+    "description": "",
+    "isGroup": false
+  }
+]

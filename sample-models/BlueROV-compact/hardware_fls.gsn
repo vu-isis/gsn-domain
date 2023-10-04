@@ -1,0 +1,9 @@
+GOALS ns_hardware_fls
+{
+    goal FLS
+    {
+        uuid:"65624a52-d653-46d0-98a4-e822fa7764ab";
+        info:'''FLS works to provide timely and accurate pings from the obstacles in the cone''';
+        ref_solution: ns_solution_hardware.S;
+    }
+}

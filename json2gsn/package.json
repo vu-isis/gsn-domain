@@ -1,0 +1,38 @@
+{
+  "name": "json2gsn",
+  "version": "0.1.0",
+  "description": "CLI and module for converting gsn-model in json to .gsn file format",
+  "author": "meijerop",
+  "license": "MIT",
+  "main": "dist/json2gsn.js",
+  "types": "dist/json2gsn.d.ts",
+  "bin": {
+    "json2gsn": "./dist/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vu-isis/gsn-domain"
+  },
+  "scripts": {
+    "prepublish": "tsc -p ./src",
+    "compile": "tsc -p ./src",
+    "watch": "tsc -w -p ./src",
+    "test": "jest --config jest.config.js  --runInBand"
+  },
+  "keywords": [
+    "gsn",
+    "assurance",
+    "json2gsn"
+  ],
+  "devDependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/jest": "^29.5.5",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "commander": "^11.0.0",
+    "tarjan-scc": "^0.2.0"
+  }
+}

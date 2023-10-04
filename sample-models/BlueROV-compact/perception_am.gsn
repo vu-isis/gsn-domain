@@ -1,0 +1,9 @@
+GOALS ns_perception_am
+{
+    goal AM_VAE_LEC3
+    {
+        uuid:"aa641b57-35a0-4a67-96e7-31e82f230d05";
+        info:'''VAE AM for LEC3 can identify OOD input - depi link change''';
+        ref_solution: ns_solution_am.S;
+    }
+}

@@ -1,0 +1,9 @@
+GOALS ns_contingency
+{
+    goal CONTINGENCY
+    {
+        uuid:"e653d8e6-dfe6-4c0a-9a16-fe74780ecbab";
+        info:'''Contingency management subsystem - Failsafes, hazards, safey and high level autonomy''';
+        ref_goal: ns_contingency_hazards.HAZARDS;
+    }
+}

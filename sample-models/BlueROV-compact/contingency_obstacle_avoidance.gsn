@@ -1,0 +1,8 @@
+GOALS ns_contingency_obstacle_avoidance
+{
+    goal OBSTACLE_AVOIDANCE
+    {
+        uuid:"f61afba8-2a37-4c4a-a68c-f739e02aa096";
+        info:'''Snapshot based avoidance logic based on obstacle map and UUV pose''';
+    }
+}

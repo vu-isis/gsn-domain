@@ -1,0 +1,17 @@
+GOALS ns_bluerov
+{
+    goal BLUEROV
+    {
+        uuid:"dfe5efd5-b74f-47cf-b77b-5da604cae7ad";
+        info:'''BlueROV system ROOT''';
+        strategy ALL
+        {
+            uuid:"c5c6708a-5058-44d7-85f1-68bb3f3a738f";
+            info:'''All goals must be valid''';
+            ref_goal: ns_hardware.HARDWARE;
+            ref_goal: ns_mission.MISSION;
+            ref_goal: ns_perception.PERCEPTION;
+            ref_goal: ns_contingency.CONTINGENCY;
+        }
+    }
+}

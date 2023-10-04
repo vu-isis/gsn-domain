@@ -1,0 +1,60 @@
+GOALS main
+{
+    goal G1
+    {
+        uuid:"6d1ee194-9e12-4927-b035-90c0e251c9ee";
+        summary:'''Control System is acceptably safe to operate''';
+        label:G4;
+        goal G2
+        {
+            uuid:"a0317e3d-7396-47d7-a560-fa4e49ec1a10";
+            summary:'''All identified hazards have been eliminated or sufficiently mitigated''';
+            strategy S1
+            {
+                uuid:"f4cd88ae-eb12-4f0b-a154-74fc0ed11637";
+                summary:'''Argument over each identified hazards''';
+                assumption A1
+                {
+                    uuid:"d256ebec-c04e-49ae-a506-227d4ac81e4a";
+                    summary:'''All hazards have been identified''';
+                }
+                goal G4
+                {
+                    uuid:"4b40c8d0-d993-412d-91c5-28dc3bf29118";
+                    summary:'''Hazard H1 has been eliminated''';
+                    label:G4;
+                    solution Sn1
+                    {
+                        uuid:"31ba73df-2fe3-4fff-b2b8-1422b43b765d";
+                        summary:'''Formal Verification''';
+                        artifact:"http://my-storage.org/artifacts/formal_verf.zip";
+                        status:Approved;
+                    }
+                }
+                goal G5
+                {
+                    uuid:"bd068268-8e8f-4362-939f-46f27eadd075";
+                    summary:'''Probability of Hazard H2 occuring < 1x10-6 per year''';
+                    solution Sn2
+                    {
+                        uuid:"d1a61882-4f9c-4525-bc9e-5b4c43a56846";
+                        summary:'''Fault Tree Analysis''';
+                        artifact:"http://my-storage.org/artifacts/fault-tree.zip";
+                        status:Disapproved;
+                    }
+                }
+                goal G6
+                {
+                    uuid:"2442e464-348b-4290-bdc7-5f7f69842196";
+                    summary:'''Probability of Hazard H3 occuring < 1x10-3 per year''';
+                    ref_solution: main.G1.G2.S1.G5.Sn2;
+                }
+            }
+            ref_context: contexts.C3;
+            ref_context: contexts.C4;
+        }
+        ref_context: contexts.C1;
+        ref_context: contexts.C2;
+        ref_goal: SIL.G3;
+    }
+}

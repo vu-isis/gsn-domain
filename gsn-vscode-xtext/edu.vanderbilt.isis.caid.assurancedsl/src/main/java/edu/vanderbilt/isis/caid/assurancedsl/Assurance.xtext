@@ -1,0 +1,194 @@
+grammar edu.vanderbilt.isis.caid.assurancedsl.Assurance with org.eclipse.xtext.common.Terminals
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+generate assurance "http://www.vanderbilt.edu/isis/caid/assurancedsl/Assurance"
+
+AssuranceModel:
+	assurancemodels += GSNDefinition*
+;
+
+GSNDefinition:
+	Goals|Strategies|Contexts|Assumptions|Justifications|Solutions
+;
+
+Goals:
+	'GOALS'  name=ID  '{' goals += GoalNode* '}'
+;
+
+Strategies:
+	'STRATEGIES'  name=ID  '{' strategies += StrategyNode* '}'
+;
+
+Contexts:
+	'CONTEXTS' name=ID '{' contexts += ContextNode* '}'
+;
+
+Assumptions:
+	'ASSUMPTIONS'  name=ID  '{' assumptions += AssumptionNode* '}'
+;
+Justifications:
+	'JUSTIFICATIONS'  name=ID  '{' justifications += JustificationNode* '}'
+;
+Solutions:
+	'SOLUTIONS'  name=ID  '{' solutions += SolutionNode* '}'
+;
+GoalSupportNodes:
+	GoalNode
+	| StrategyNode
+	| SolutionNode
+	| GoalNodeRef
+	| StrategyNodeRef
+	| SolutionNodeRef
+	;
+
+StrategySupportNodes:
+	GoalNode
+	| StrategyNode
+	| GoalNodeRef
+	| StrategyNodeRef
+	;
+
+ContextNodes:
+	ContextNode
+	| ContextNodeRef
+;
+
+AssumptionNodes:
+	AssumptionNode
+	| AssumptionNodeRef
+;
+
+JustificationNodes:
+	JustificationNode
+	| JustificationNodeRef
+;
+
+ALLNodes: 
+	GoalNode
+	| StrategyNode
+	| SolutionNode
+	| ContextNode
+	| AssumptionNode
+	| JustificationNode
+	
+;
+
+GoalNodeRef:
+	'ref_goal:' ref=[GoalNode|RefFQN] ';'
+;
+
+StrategyNodeRef:
+	'ref_strategy:' ref=[StrategyNode|RefFQN] ';'
+;
+
+SolutionNodeRef:
+	'ref_solution:' ref=[SolutionNode|RefFQN] ';'
+;
+
+ContextNodeRef:
+	'ref_context:' ref=[ContextNode|RefFQN] ';'
+;
+AssumptionNodeRef:
+	'ref_assumption:' ref=[AssumptionNode|RefFQN] ';'
+;
+JustificationNodeRef:
+	'ref_justification:' ref=[JustificationNode|RefFQN] ';'
+;
+
+GoalDetails:
+	GoalSupportNodes|
+	ContextNodes|
+	AssumptionNodes|
+	JustificationNodes
+;
+
+StrategyDetails:
+	StrategySupportNodes|
+	ContextNodes|
+	AssumptionNodes|
+	JustificationNodes
+;
+	
+GoalNode:
+	'goal' name=ID '{'
+		  (details += BaseNode)	
+		  (nodedetails += GoalDetails*)
+	 '}'
+	 ;
+
+StrategyNode:
+	'strategy' name=ID '{'
+		   (details += BaseNode)
+	      (nodedetails += StrategyDetails*)
+	'}'
+	;
+
+ContextNode:
+	'context' name=ID '{'
+	      (details += BaseNode)
+	'}'
+	;
+	
+AssumptionNode:
+	'assumption' name=ID '{'
+	      (details += BaseNode)
+	'}'
+	;
+
+JustificationNode:
+	'justification' name=ID '{'
+	      (details += BaseNode)
+	'}'
+	;
+
+SolutionNode:
+	'solution' name=ID '{'
+	      (details += BaseNode)
+          ('status:'status = SolutionStatus ';')?
+	'}'
+	;
+
+BaseNode:
+      {BaseNode}
+	  uuid=UUIDType
+      (summary += Summary)? 
+      (info += Description)?  
+      (labels +=LabelInfo*) 
+      (artifacts += URIA*)
+	;
+
+enum SolutionStatus:
+    NotReviewed = 'NotReviewed' |
+    Approved = 'Approved' |
+    Disapproved = 'Disapproved'
+    ;
+
+UUIDType: 
+    'uuid:' info=STRING';'
+    ;
+
+Summary: 
+    'summary:' info=ML_INFO';'
+    ;
+
+Description: 
+    'info:' info=ML_INFO';'
+    ;
+
+LabelInfo:
+    'label:' name=ID ';'
+    ;
+    
+URIA: 
+    'artifact:' uri=STRING ';'
+    ;
+
+RefFQN: // this rules matches either an FQN or a simple identifier
+	ID ("." ID)*;
+  
+terminal ML_INFO : '\'\'\''  -> '\'\'\'';
+	
+	
+
+
+
+

@@ -1,0 +1,85 @@
+[
+    {
+        "summary": "The sum of the natural numbers less or equal to n equals to Sn = n*(n + 1) / 2",
+        "name": "Statement",
+        "solvedBy": ["gauss/Statement/Mathematical_Induction"],
+        "id": "gauss/Statement",
+        "type": "Goal",
+        "uuid": "adaa653c-737a-4080-bf74-4f0fa0da3495",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": []
+    },
+    {
+        "summary": "",
+        "name": "Mathematical_Induction",
+        "solvedBy": [
+            "gauss/Statement/Mathematical_Induction/Base",
+            "gauss/Statement/Mathematical_Induction/Inductive_Step"
+        ],
+        "id": "gauss/Statement/Mathematical_Induction",
+        "type": "Strategy",
+        "uuid": "3c168586-1c57-4269-9187-35dfe3123691",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": []
+    },
+    {
+        "summary": "Holds for n = 1",
+        "name": "Base",
+        "solvedBy": ["gauss/Statement/Mathematical_Induction/Base/S1"],
+        "id": "gauss/Statement/Mathematical_Induction/Base",
+        "type": "Goal",
+        "uuid": "53cfa782-7250-45bf-b24c-1a32a4e6ac38",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": []
+    },
+    {
+        "summary": "S1 = 1*(1 + 1) / 2 = 1",
+        "name": "S1",
+        "id": "gauss/Statement/Mathematical_Induction/Base/S1",
+        "type": "Solution",
+        "uuid": "9038480f-ae65-4c2c-b399-0e4aeaa44cb1",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "status": "NotReviewed"
+    },
+    {
+        "summary": "Holds for n = k + 1",
+        "name": "Inductive_Step",
+        "solvedBy": ["gauss/Statement/Mathematical_Induction/Inductive_Step/Sk_plus_1"],
+        "id": "gauss/Statement/Mathematical_Induction/Inductive_Step",
+        "type": "Goal",
+        "uuid": "0f9bb9a7-abaa-467f-9798-b59fb42e26fe",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "inContextOf": ["gauss/Statement/Mathematical_Induction/Inductive_Step/Assuming"]
+    },
+    {
+        "summary": "Holds for n = k",
+        "name": "Assuming",
+        "id": "gauss/Statement/Mathematical_Induction/Inductive_Step/Assuming",
+        "type": "Assumption",
+        "uuid": "391acf6d-d507-4a3b-a88f-537e09ce25de",
+        "info": "",
+        "artifacts": [],
+        "labels": []
+    },
+    {
+        "summary": "Sk + 1 = (k + 1)(k + 2)/2\n\nSk + 1\n= Sk + (k + 1)\n= k*(k + 1) / 2 + (k + 1)\n= (k + 1)*(k + 2) / 2",
+        "name": "Sk_plus_1",
+        "id": "gauss/Statement/Mathematical_Induction/Inductive_Step/Sk_plus_1",
+        "type": "Solution",
+        "uuid": "aa4e0fc7-a74f-45fc-bb59-75a3dd82067c",
+        "info": "",
+        "artifacts": [],
+        "labels": [],
+        "status": "NotReviewed"
+    }
+]

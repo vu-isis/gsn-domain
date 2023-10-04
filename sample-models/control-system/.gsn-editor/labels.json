@@ -1,0 +1,54 @@
+[
+  {
+    "name": "G4",
+    "description": "Goal node G4",
+    "isGroup": false
+  },
+  {
+    "name": "SIL",
+    "description": "Saftey Integrity Levels",
+    "isGroup": true,
+    "parent": null,
+    "members": []
+  },
+  {
+    "name": "SIL_HIGH",
+    "description": "Higher end of SILs",
+    "isGroup": true,
+    "parent": "SIL",
+    "members": [
+      "SIL3",
+      "SIL4"
+    ]
+  },
+  {
+    "name": "SIL_LOW",
+    "description": "Lower end of SILs",
+    "isGroup": true,
+    "parent": "SIL",
+    "members": [
+      "SIL1",
+      "SIL2"
+    ]
+  },
+  {
+    "name": "SIL1",
+    "description": "Saftey Integrity Level 1",
+    "isGroup": false
+  },
+  {
+    "name": "SIL2",
+    "description": "Saftey Integrity Level 2",
+    "isGroup": false
+  },
+  {
+    "name": "SIL3",
+    "description": "Saftey Integrity Level 3",
+    "isGroup": false
+  },
+  {
+    "name": "SIL4",
+    "description": "Saftey Integrity Level 4",
+    "isGroup": false
+  }
+]

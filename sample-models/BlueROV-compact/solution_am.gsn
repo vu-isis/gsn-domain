@@ -1,0 +1,8 @@
+SOLUTIONS ns_solution_am
+{
+    solution S
+    {
+        uuid:"dbd8598e-091d-4d33-9d08-84e9acfc5915";
+        info:'''Gathered data and computed metrics reveal AM can successfully detect OOD input''';
+    }
+}

@@ -1,0 +1,305 @@
+GOALS ns_perception
+{
+    goal PERCEPTION
+    {
+        uuid:"4b282974-ff3c-441a-a229-46d5050f8342";
+        info:'''Perception is satisfied by the LECs and AMs''';
+        goal OBSTACLE_PERCEPTION
+        {
+            uuid:"f7e42dc9-bf1b-4014-9701-c354c12dd5eb";
+            summary:'''Generate scenarios and test that the obstacles are detected by the forward looking sonar (FLS) and the associated LEC (LEC3)''';
+            info:'''This subtree is defined here, under the Perception''';
+            label:UUV;
+            label:ROVER;
+            ref_assumption: assumptions.SatisfactorySensors;
+            ref_context: contexts.GROUND_ROVER;
+            ref_context: contexts.ROV;
+            goal LEC3
+            {
+                uuid:"d2532782-df16-4bf1-bbda-bd903b01bc04";
+                info:'''LEC3 obstacle perception can identify obstacles''';
+                solution generic_artifact_0
+                {
+                    uuid:"634c3ab8-8713-42d5-9556-8ac573c215b3";
+                    info:'''Generic artifacts, valid for every context without any label''';
+                }
+                solution generic_artifact_1
+                {
+                    uuid:"1bcfdceb-1ba6-4064-8ae7-a0176bda78cb";
+                    info:'''Generic artifacts, valid for every context with ROV and GROUND_ROVER labels''';
+                    label:UUV;
+                }
+                solution rov_artifact_0
+                {
+                    uuid:"1958cdaf-4771-44e8-8827-5d0bad644f2a";
+                    info:'''Generic artifacts, valid for ROV''';
+                    label:UUV;
+                }
+                solution rov_artifact_1
+                {
+                    uuid:"6ec18ddb-38fb-4f09-8976-606b3c23f5be";
+                    info:'''Generic artifacts, valid for ROV''';
+                    label:UUV;
+                }
+                solution ground_rover_artifacts_0
+                {
+                    uuid:"6687ce80-00ed-402a-a0df-219d9f306642";
+                    info:'''Generic artifacts, valid for GROUND_ROVER''';
+                    label:ROVER;
+                }
+                solution ground_rover_artifacts_1
+                {
+                    uuid:"c261901c-603e-4e12-82ab-8f238618805a";
+                    info:'''Generic artifacts, valid for GROUND_ROVER''';
+                    label:ROVER;
+                }
+                solution LEC3_training_results
+                {
+                    uuid:"066fd61a-bc63-4e5c-b8ac-776847be4de3";
+                    summary:'''Jupyter notebook containing the results''';
+                }
+                solution CP1_04_obstacles
+                {
+                    uuid:"ab19dc67-a0ea-4c0f-91f7-1c08af945534";
+                    summary:'''src/vandy_bluerov/scripts/cp1_04_obstacles.sh''';
+                }
+                solution lec3_lite_node
+                {
+                    uuid:"f45d35dd-f57e-45f7-af48-c394ad543340";
+                    summary:'''src/lec3lite/nodes/lec3_lite_node.py''';
+                }
+            }
+            goal AM_VAE_LEC3
+            {
+                uuid:"d9ea5c7e-d262-4ec0-b157-fa678840862f";
+                info:'''VAE AM for LEC3 can identify OOD input''';
+                solution lec3_lite_am
+                {
+                    uuid:"b5682df6-4a32-48d0-9a2f-4221ad85e3e9";
+                    summary:'''src/lec3lite/nodes/lec3_lite_am.py''';
+                    info:'''Gathered data and computed metrics reveal AM can successfully detect OOD input''';
+                }
+                solution AM_VAE_LEC3_training_results
+                {
+                    uuid:"40d62262-cdc1-443a-8554-0711e765e468";
+                    summary:'''Jupyter notebook containing the results''';
+                }
+                ref_solution: LEC3.CP1_04_obstacles;
+            }
+            ref_goal: ns_hardware.HARDWARE.SENSORS.FLS;
+        }
+        goal FDIR
+        {
+            uuid:"fb0ec651-722f-49ad-953e-bd8fa8b83598";
+            info:'''Fault detection and control reallocation''';
+            label:UUV;
+            ref_assumption: assumptions.SatisfactorySensors;
+            goal DD_LEC
+            {
+                uuid:"9784ff13-5fbe-4874-aa48-73f1218cf78f";
+                info:'''LEC for detecting single thrsuter failure''';
+                ref_assumption: assumptions.OneThrusterDegredation;
+                goal MILD_THRUST_LOSS
+                {
+                    uuid:"523024b4-dc4f-4ba7-b24b-90559306e146";
+                    info:'''Thrust loss is less then 50%''';
+                    solution CP2_00_campaigns
+                    {
+                        uuid:"9c5baf84-7a4e-43a3-be50-b9fa31754cb8";
+                        summary:'''src/vandy_bluerov/scripts/cp2_00_single_thr_deg.sh''';
+                    }
+                    solution cp2_00_single_thr_deg_no_reallocation_campaigns
+                    {
+                        uuid:"84d5ab04-9ef8-4e58-bf26-2807c4b8ee6d";
+                        summary:'''src/vandy_bluerov/scripts/cp2_00_single_thr_deg_no_reallocation.sh''';
+                    }
+                    solution cp2_00_wp_campaigns
+                    {
+                        uuid:"ea33edaa-21a9-4d91-ad30-6d5396960936";
+                        summary:'''src/vandy_bluerov/scripts/cp2_00_wp.sh''';
+                    }
+                }
+                goal SEVERE_THRUST_LOSS
+                {
+                    uuid:"67c3a182-3be1-4474-beab-e4c266c8475f";
+                    info:'''Thrust loss is at least 50%''';
+                    ref_solution: MILD_THRUST_LOSS.CP2_00_campaigns;
+                }
+                solution dd_lec_task
+                {
+                    uuid:"a96a0076-2869-4d76-aad5-446818b51771";
+                    summary:'''src/vandy_bluerov/behaviour_tree_gen/task_dd_lec_task.py''';
+                }
+            }
+            goal AM_SC_DDLEC
+            {
+                uuid:"0c99b5b1-c37e-47cf-a009-c416df86c545";
+                info:'''Selective Classification Assurance Monitor''';
+                solution TRAINING_RESULTS
+                {
+                    uuid:"9ba28926-5a24-48fa-af1f-8a86fe9ff0dd";
+                    summary:'''Training results for FDIR (DDLEC + SC AM)''';
+                }
+                ref_solution: DD_LEC.dd_lec_task;
+            }
+            goal CONTROL_REALLOCATION
+            {
+                uuid:"b502a764-788a-4e69-9d8a-1ee3766c1254";
+                info:'''FDIR successfully reallocates thrust for mild and severe thrust loss''';
+                goal SINGLE_THRUSTER_REALLOCATION
+                {
+                    uuid:"665d2187-425b-48a6-8547-dd7fe530b5e0";
+                    info:'''Decrease thrust on thruster when a thruster on the other side has less then 50% thrust loss''';
+                    ref_solution: DD_LEC.MILD_THRUST_LOSS.CP2_00_campaigns;
+                }
+                goal DUAL_THRUSTER_DISABLE
+                {
+                    uuid:"6d6669ec-d933-4c2b-bdbd-a7f2aa4f4e82";
+                    info:'''Disabling both degraded thruster and it`s pair on the other side''';
+                    ref_solution: DD_LEC.MILD_THRUST_LOSS.CP2_00_campaigns;
+                }
+                solution task_reallocate
+                {
+                    uuid:"beca709d-13ec-4b8c-ab96-1c72bde91830";
+                    summary:'''src/vandy_bluerov/behaviour_tree_gen/task_reallocate_task.py''';
+                }
+            }
+        }
+        goal PIPE_PERCEPTION
+        {
+            uuid:"65fcb2a2-a27d-4232-a164-2a69f467c9ff";
+            info:'''Pipe perception is satisfactory on both sides''';
+            label:ROVER;
+            ref_goal: ns_hardware.HARDWARE.SENSORS.SSS;
+            ref_context: contexts.GROUND_ROVER;
+            ref_context: contexts.ROV;
+            goal LEC2
+            {
+                uuid:"0736d829-9efc-498e-912d-b97c38ff94f9";
+                info:'''LEC2 can detect pipe segments on both sides''';
+                goal LEC2_LEFT
+                {
+                    uuid:"d9f3dc9a-9367-449a-892b-1ba61299957a";
+                    summary:''' ''';
+                    info:'''Pipe perception on SSS images''';
+                    solution generic_artifact_0
+                    {
+                        uuid:"0e620651-b432-4f56-83cb-c03c1b2df954";
+                        info:'''Generic artifacts, valid for every context without any label''';
+                    }
+                    solution generic_artifact_1
+                    {
+                        uuid:"00a60015-ae7a-42f3-bd54-e1af0ae629b4";
+                        info:'''Generic artifacts, valid for every context with ROV and GROUND_ROVER labels''';
+                        label:UUV;
+                    }
+                    solution rov_artifact_0
+                    {
+                        uuid:"4dd2a60c-98e9-4aed-ae52-312ee121f705";
+                        info:'''Generic artifacts, valid for ROV''';
+                        label:UUV;
+                    }
+                    solution rov_artifact_1
+                    {
+                        uuid:"33ff222f-aab0-49d1-8140-2023d26d5b79";
+                        info:'''Generic artifacts, valid for ROV''';
+                        label:UUV;
+                    }
+                    solution ground_rover_artifacts_0
+                    {
+                        uuid:"88daac76-131d-415f-b976-70f49795433d";
+                        info:'''Generic artifacts, valid for GROUND_ROVER''';
+                        label:ROVER;
+                    }
+                    solution ground_rover_artifacts_1
+                    {
+                        uuid:"a2ae3a07-31c9-4f8c-84e1-db1f3cd12cc1";
+                        info:'''Generic artifacts, valid for GROUND_ROVER''';
+                        label:ROVER;
+                    }
+                    solution lec2_lite_node
+                    {
+                        uuid:"6dde9c0b-42e1-40bd-8a6e-53ac6173ef12";
+                        summary:'''src/lec2lite/nodes/lec2_lite_node.py''';
+                    }
+                    solution lec2_lite_coral_dual_node
+                    {
+                        uuid:"b914822e-bee7-417e-ae3e-f32f7e234736";
+                        summary:'''src/lec2lite/nodes/lec2_lite_coral_dual_node.py''';
+                    }
+                    ref_solution: ns_hardware.HARDWARE.SENSORS.SSS.CP1_00;
+                    ref_solution: ns_contingency.CONTINGENCY.SAFETY.FAILSAFES.GEOFENCE.CP1_01_Geofence;
+                }
+                goal LEC2_RIGHT
+                {
+                    uuid:"261b0fda-0d1c-4ab1-95ed-f2e7edadd0b5";
+                    info:'''Pipe perception on SSS images''';
+                    solution generic_artifact_0
+                    {
+                        uuid:"7898b438-b443-4617-92b5-52f8c55c5189";
+                        info:'''Generic artifacts, valid for every context without any label''';
+                    }
+                    solution generic_artifact_1
+                    {
+                        uuid:"e190dba7-a9c1-418e-b5d1-78da06ff3ef7";
+                        info:'''Generic artifacts, valid for every context with ROV and GROUND_ROVER labels''';
+                        label:UUV;
+                    }
+                    solution rov_artifact_0
+                    {
+                        uuid:"911b2ae9-c56f-46ca-a82d-b8d9946ed3c0";
+                        info:'''Generic artifacts, valid for ROV''';
+                        label:UUV;
+                    }
+                    solution rov_artifact_1
+                    {
+                        uuid:"5b605901-4d21-4c1c-83dc-ff93d43f4245";
+                        info:'''Generic artifacts, valid for ROV''';
+                        label:UUV;
+                    }
+                    solution ground_rover_artifacts_0
+                    {
+                        uuid:"2b0fb9a4-2734-4ba0-8a40-ae04662d394e";
+                        info:'''Generic artifacts, valid for GROUND_ROVER''';
+                        label:ROVER;
+                    }
+                    solution ground_rover_artifacts_1
+                    {
+                        uuid:"253bb868-b6eb-4187-a1c3-9c7191b89f1e";
+                        info:'''Generic artifacts, valid for GROUND_ROVER''';
+                        label:ROVER;
+                    }
+                    ref_solution: LEC2_LEFT.lec2_lite_node;
+                    ref_solution: LEC2_LEFT.lec2_lite_coral_dual_node;
+                    ref_solution: ns_hardware.HARDWARE.SENSORS.SSS.CP1_00;
+                    ref_solution: ns_contingency.CONTINGENCY.SAFETY.FAILSAFES.GEOFENCE.CP1_01_Geofence;
+                    ref_solution: ns_hardware.HARDWARE.SENSORS.SSS.CP1_03_batt_low;
+                    ref_solution: OBSTACLE_PERCEPTION.LEC3.CP1_04_obstacles;
+                }
+            }
+            goal AM_VAE_LEC2
+            {
+                uuid:"8150af71-166d-41df-9a24-4600f37ad25d";
+                info:'''VAE Assurance Monitor is trained and calibrated satisfactory''';
+                goal AM_VAE_LEC2_LEFT
+                {
+                    uuid:"a2479f03-0dd4-4b29-83b8-1d335ac378db";
+                    info:'''VAE AM detects OOD on left side image''';
+                    ref_goal: LEC2.LEC2_LEFT;
+                    solution lec2lite_am
+                    {
+                        uuid:"0982e395-a818-4a0f-832b-0bbdd36102bf";
+                        summary:'''src/lec2lite/nodes/lec2lite_am.py''';
+                    }
+                }
+                goal AM_VAE_LEC2_RIGHT
+                {
+                    uuid:"1743bb6d-9df3-4768-b505-f43b3c8f5c9f";
+                    info:'''VAE AM detects OOD on right side image''';
+                    ref_goal: PIPE_PERCEPTION.LEC2.LEC2_RIGHT;
+                    ref_solution: AM_VAE_LEC2_LEFT.lec2lite_am;
+                }
+            }
+        }
+    }
+}

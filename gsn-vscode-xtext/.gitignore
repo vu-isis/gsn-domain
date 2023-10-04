@@ -1,0 +1,11 @@
+**/build
+**/.gradle
+**/node_modules
+**/xtend-gen
+**/xtext-gen
+**/bin
+.metadata/
+model
+src-gen
+xtend-gen
+.settings

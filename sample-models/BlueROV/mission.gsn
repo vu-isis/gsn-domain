@@ -1,0 +1,58 @@
+GOALS ns_mission
+{
+    goal MISSION
+    {
+        uuid:"1bea5ee8-b710-4365-b4f2-62bf77b3de87";
+        info:'''Mission execution subsystem''';
+        goal GENERAL
+        {
+            uuid:"da30fb66-facd-42e5-8ef1-ad965ab08bde";
+            goal SETPOINT_CONTROLLER
+            {
+                uuid:"1eaef652-396d-4b37-ada3-fd9601d40634";
+                info:'''Depth and directional control meet the requirements''';
+                ref_assumption: assumptions.PoseSatisfactory;
+                solution CP4_05_RandomWP
+                {
+                    uuid:"ce77f6a2-fde3-4b82-b2b9-74e1e322fd0f";
+                    summary:'''Random Waypoint generation and execution mission plan''';
+                    info:'''Mission results and post process log satisfactory''';
+                }
+            }
+        }
+        goal WAYPOINT_FOLLOWING
+        {
+            uuid:"cdc118e6-11dc-436c-9d43-67f880568232";
+            info:'''Waypoint control works as desired based on the inputs related to the current position of the UUV and the future course''';
+            ref_assumption: assumptions.BTMissionExecution;
+            solution Metrics
+            {
+                uuid:"d2906600-ee65-4a4b-8e99-52257dd4d689";
+                info:'''Mission results and post process log satisfactory''';
+            }
+        }
+        goal PIPE_TRACKING
+        {
+            uuid:"daaabddd-59fe-4f9c-b364-dd47e61316ba";
+            info:'''Pipe (Target) tracking functional requirements are satisfied''';
+            ref_assumption: assumptions.BTMissionExecution;
+            ref_assumption: assumptions.LEC2AMSatisfactory;
+            ref_assumption: assumptions.SSSSatisfactory;
+            solution Perception_metrics
+            {
+                uuid:"4ecf1767-8867-4423-88b3-f32ebfb41904";
+                info:'''Perception of the pipe (target) position is reasonably accurate to support mapping for control-guidance and target evaluation and target localization''';
+            }
+            solution Mapping_metrics
+            {
+                uuid:"0fee91b7-c551-4c20-a9e5-4093fca48901";
+                info:'''Mapping process works in a timely fashion to allow for control-guidance and target domain mapping''';
+            }
+            solution Tracking_metrics
+            {
+                uuid:"2589ca40-b7ba-457d-a7e2-ccb6f43b8965";
+                info:'''Tracking control works as desired based on the inputs from the target mapping''';
+            }
+        }
+    }
+}

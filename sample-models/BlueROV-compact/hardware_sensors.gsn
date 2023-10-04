@@ -1,0 +1,9 @@
+GOALS ns_hardware_sensors
+{
+    goal SENSORS
+    {
+        uuid:"e62fe0e5-d122-4ee7-8421-6aa03a292a89";
+        info:'''Sensors available for both HW and SIM work as expected''';
+        ref_goal: ns_hardware_fls.FLS;
+    }
+}

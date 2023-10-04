@@ -1,0 +1,52 @@
+/* src/viewer.less */
+.gsn-compare-table-viewer {
+    border-spacing: 0;
+    table-layout: fixed;
+    width: 100%;
+}
+.gsn-compare-table-viewer tr {
+    vertical-align: top;
+}
+.gsn-compare-table-viewer tr .line-add {
+    background: rgb(165, 214, 167, 0.5);
+}
+.gsn-compare-addition .gsn-compare-table-viewer tr .line-add {
+    background-color: unset;
+}
+.gsn-compare-table-viewer tr .line-remove {
+    background: rgb(239, 154, 154, 0.5);
+}
+.gsn-compare-removal .gsn-compare-table-viewer tr .line-remove {
+    background-color: unset;
+}
+.gsn-compare-table-viewer tr:hover td {
+    position: relative;
+}
+.gsn-compare-table-viewer tr:hover td::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.05);
+    content: '';
+    pointer-events: none;
+}
+.gsn-compare-table-viewer pre {
+    margin: 0;
+    font-size: 12px;
+    line-height: 16px;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+.gsn-compare-table-viewer pre .inline-diff-add {
+    background: rgba(0, 0, 0, 0.08);
+    text-decoration: underline;
+    word-break: break-all;
+}
+.gsn-compare-table-viewerpre .inline-diff-remove {
+    background: rgba(0, 0, 0, 0.08);
+    text-decoration: line-through;
+    word-break: break-all;
+}

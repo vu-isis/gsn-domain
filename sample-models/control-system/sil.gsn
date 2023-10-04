@@ -1,0 +1,49 @@
+GOALS SIL
+{
+    goal G3
+    {
+        uuid:"29b85156-98e3-44ed-80d0-a1d646699e9e";
+        summary:'''Software adheres to SIL''';
+        info:'''Software in the Control System has been developed to SIL appropriate to hazards involved''';
+        strategy S2
+        {
+            uuid:"6d8f9107-c819-4168-9bb1-a70a03052ce9";
+            summary:'''Argument over allocated SIL for Primary and Secondary elements''';
+            goal G7
+            {
+                uuid:"139f80ce-cb0d-479c-b608-2100d559a785";
+                summary:'''Primary Protection System Developed to SIL 4''';
+                label:SIL4;
+                solution Sn3
+                {
+                    uuid:"085e4c24-333c-4edc-8a40-39e73dd81c9e";
+                    summary:'''Process Evidence for SIL 4''';
+                    artifact:"sil://process-evidence4";
+                    status:Approved;
+                }
+            }
+            goal G8
+            {
+                uuid:"0d7ddd25-0964-4606-9579-bbc394e6ff94";
+                summary:'''Secondary Protection System Developed to SIL 2''';
+                label:SIL1;
+                label:SIL2;
+                solution Sn4
+                {
+                    uuid:"6594fc27-a06b-4eb4-b756-7d0a88959159";
+                    summary:'''Process Evidence for SIL 2''';
+                    artifact:"sil://process-evidence4";
+                    artifact:"antoher_artie";
+                }
+            }
+            ref_context: contexts.C6;
+            justification J1
+            {
+                uuid:"c969296b-5cdd-4666-b020-18793a8c744b";
+                summary:'''SIL apportionment is correct and complete''';
+            }
+        }
+        ref_context: contexts.C4;
+        ref_context: contexts.C5;
+    }
+}

@@ -1,0 +1,378 @@
+GOALS ns_hardware
+{
+    goal HARDWARE
+    {
+        uuid:"f28884b8-0ae3-489f-b304-9b6a348b507f";
+        info:'''Hardware subsystem - not present in the simulation''';
+        artifact:"artifact1";
+        artifact:"artifact2";
+        artifact:"artifact3";
+        ref_context: contexts.HW;
+        goal HULL_INTEGRIY
+        {
+            uuid:"9e31f264-b282-4c42-8051-bbbc4774aa02";
+            info:'''Hull integrity satisfactory''';
+            label:UUV;
+            goal LEAK_SENSOR
+            {
+                uuid:"dd7f33e8-b52e-49f9-8929-54c2e183873a";
+                info:'''Leak sensor (4-6 aux input) is operational and fast (detects water within x seconds)''';
+                solution Test_report_solution
+                {
+                    uuid:"67853325-4a9d-482a-9364-dda934f0bfcf";
+                    summary:'''Test report - vehicle is operational as stated in the operation manual''';
+                    info:'''Testing HW manually''';
+                }
+                solution Operation_manual
+                {
+                    uuid:"68758c28-8664-48c8-beb7-819fae9590b5";
+                }
+                solution Pre_dive_checklist
+                {
+                    uuid:"fde34f2a-7082-47ca-81e4-ae39300a452d";
+                    summary:'''Pre dive checklist contains mandatory instructions to do and check before dive to ensure safe operation within specifications and limits.''';
+                }
+            }
+            goal PRESSURE_SENSOR
+            {
+                uuid:"4170d207-f569-4611-8f14-edd465f79de2";
+                info:'''Onboard pressure sensor is operational - in water measurement correlates with depth sensor''';
+                ref_solution: LEAK_SENSOR.Test_report_solution;
+                ref_solution: LEAK_SENSOR.Operation_manual;
+                ref_solution: LEAK_SENSOR.Pre_dive_checklist;
+            }
+            goal INTERNAL_TEMPERATURE
+            {
+                uuid:"6608da62-02e5-443e-a6ad-518b1ea5ef3f";
+                info:'''Onboard temp sensor is operational, reading is inside valid range''';
+                ref_solution: LEAK_SENSOR.Pre_dive_checklist;
+                ref_solution: LEAK_SENSOR.Test_report_solution;
+                ref_solution: LEAK_SENSOR.Operation_manual;
+            }
+            goal PRESSURE_TEST
+            {
+                uuid:"1ce8aa32-d859-4634-83a5-83fc35438825";
+                info:'''Hull seal is working, does not leak''';
+                ref_solution: LEAK_SENSOR.Pre_dive_checklist;
+                ref_solution: LEAK_SENSOR.Operation_manual;
+                ref_solution: LEAK_SENSOR.Test_report_solution;
+            }
+            assumption General_Assumption
+            {
+                uuid:"9e1e480a-d563-432f-80cf-cd97b63b1233";
+                summary:'''UUV is not damaged, fully operational, battery is charged, is in nominal state''';
+            }
+            assumption Specs_Assumption
+            {
+                uuid:"12deedca-a6f3-4978-bd59-26aee02f21d1";
+                summary:'''Operation within specified limitations regarding depth and other factors''';
+            }
+        }
+        goal PROPULSION
+        {
+            uuid:"fc8cdc27-e11f-413d-a888-8a10663b0002";
+            info:'''Propulsion system is operational, thrusters are not in degraded state, ready to use''';
+            label:UUV;
+            strategy ANY
+            {
+                uuid:"fc79df3e-50c6-45ca-9b3f-626e3bc63243";
+                summary:'''Valid if any of the subgoals are valid''';
+                goal RPM_MONITOR
+                {
+                    uuid:"83bf37dc-0273-40ee-bbb8-8c47797a22ef";
+                    info:'''Thruster RPMs are monitored during mission, to detect propulsion system anomalies''';
+                    label:UUV;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Operation_manual;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Test_report_solution;
+                }
+                goal THRUSTER_BLADES
+                {
+                    uuid:"75c2d974-b894-4404-9cc7-69fa67b26f50";
+                    info:'''Thruster blades are not damaged - Nominal thruster blades required for propulsion to meet performance specifications''';
+                    label:UUV;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Operation_manual;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Test_report_solution;
+                }
+                goal VIBRATION_MONITOR
+                {
+                    uuid:"4ff238b2-32e4-4c17-92e3-ddc2738ed035";
+                    info:'''Vibration is monitored during mission, to detect propulsion issues''';
+                    solution Results_and_metrics
+                    {
+                        uuid:"e3c00674-222c-4222-ae3c-8b786030c4ee";
+                        summary:'''Mission results and post process metrics (HW & SW)''';
+                        info:'''Vibration is nominal during mission conditions - no degradation present eg. due to bearing or blade damage''';
+                        artifact:"jupyter_notebook_url";
+                        artifact:"post_process_metrics_plot";
+                    }
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Operation_manual;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Test_report_solution;
+                }
+                goal POWER_MONITOR
+                {
+                    uuid:"f001afc3-ee06-4a85-8c50-758872de9c6b";
+                    info:'''Power consumption is monitored during mission, to detect battery or propulsion system anomalies''';
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Operation_manual;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Test_report_solution;
+                }
+                assumption Assumption_minimal_requirements
+                {
+                    uuid:"3ef95697-1c82-4dd3-95db-64858f294bc7";
+                    summary:'''Minimal required hardware are Power Monitor and RPM_Monitor for FDIR to be operational''';
+                }
+            }
+        }
+        goal SINGLE_BOARD_COMPUTERS
+        {
+            uuid:"a30c96d7-7f87-4b1e-a0a3-4ae2932f25cd";
+            label:ROVER;
+            goal AUTOPILOT
+            {
+                uuid:"889b0676-addd-4da9-ba87-c9d67cca0b49";
+                info:'''ArduSub 4.x running on BeagleBoneBlue or Pixhawk - responsible for low level control and sensor interface''';
+                ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Operation_manual;
+                ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+                ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Test_report_solution;
+            }
+            goal COMPANION_COMPUTER
+            {
+                uuid:"909a6b39-0fcf-463a-b81d-e559485d9c81";
+                info:'''High level autonomy (contingecy and mission control)''';
+                ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Operation_manual;
+                ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Test_report_solution;
+                ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+            }
+        }
+        goal PAYLOAD
+        {
+            uuid:"69e8dc97-7fa6-40a3-83b8-90a851e622b2";
+            info:'''User-defined custom payload''';
+            label:ROVER;
+            strategy ANY
+            {
+                uuid:"8ca90dca-131d-4c38-a502-6960c385574b";
+                summary:'''Valid if any of the subgoals are valid''';
+                goal OPTICAL_FLOW
+                {
+                    uuid:"83271479-8837-4f24-9026-30a1503c11fa";
+                    summary:'''Optical flow sensor''';
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Operation_manual;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Test_report_solution;
+                }
+                goal RGB_D
+                {
+                    uuid:"ad1eb8fa-f3a2-4cce-9687-be506b6ebf40";
+                    summary:'''Depth camera''';
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Operation_manual;
+                    ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Test_report_solution;
+                }
+            }
+        }
+        goal SENSORS
+        {
+            uuid:"7d25478e-a778-41b9-ae85-488120b5eb06";
+            info:'''Sensors available for both HW and SIM work as expected''';
+            goal DVL
+            {
+                uuid:"d6ba2130-a6cc-4b9d-932b-bf21b9635920";
+                info:'''DVL works correctly to provide accurate depth estimates''';
+                solution DVL_specification
+                {
+                    uuid:"6382837a-925a-4aec-a80a-5e37087889aa";
+                }
+                ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+            }
+            goal FLS
+            {
+                uuid:"dbbaef1d-082d-409c-8d5e-330a9970f1c6";
+                info:'''FLS works to provide timely and accurate pings from the obstacles in the cone''';
+                solution FLS_specification
+                {
+                    uuid:"2e88fa7f-874a-4128-b057-23ebaf6dff2a";
+                }
+                ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+                solution forward_looking_sonar
+                {
+                    uuid:"05a451e5-8f7a-4bf6-96c3-a0f385feb0eb";
+                    summary:'''src/vandy_bluerov/nodes/sonars/forward_looking_sonar.py''';
+                }
+            }
+            goal SSS
+            {
+                uuid:"1a3f1fdc-9685-4521-a3ff-dba7848870c7";
+                summary:'''Side Scan Sonar''';
+                info:'''SSS (left and right) provides good coverage of the target (pipe) - sonars provide reasonable scans of the target. Performance is better when the target is in the line of motion of the UUV i.e. perpendicular to the sonars''';
+                solution SSS_specification
+                {
+                    uuid:"da3dc6d5-2c31-4303-92b9-dcf8f53b076e";
+                }
+                ref_solution: HULL_INTEGRIY.LEAK_SENSOR.Pre_dive_checklist;
+                solution CP1_00
+                {
+                    uuid:"01784c51-81a0-4af5-936c-2156f34d6fef";
+                    summary:'''/src/vandy_bluerov/scripts/cp1_00.sh''';
+                }
+                solution side_scan_sonar_vu1
+                {
+                    uuid:"146d9f1a-e55c-4f12-a20a-61f2efc5c010";
+                    summary:'''src/vandy_bluerov/nodes/sonars/side_scan_sonar_vu.py''';
+                }
+                ref_solution: ns_contingency.CONTINGENCY.SAFETY.FAILSAFES.GEOFENCE.CP1_01_Geofence;
+                solution CP1_03_batt_low
+                {
+                    uuid:"6174cdb5-64f6-467d-af1c-6cc9d4476259";
+                    summary:'''src/vandy_bluerov/scripts/cp1_03_batt_low.sh''';
+                }
+            }
+            goal POSE
+            {
+                uuid:"d2bf6d53-1974-4387-a38f-2f3569ea74dc";
+                info:'''IMU/EKF provides good estimate of the position and velocity of the UUV. Note: In the simulation Pixhawk emulator adds additional information to the Gazebo data. Currently in the simulation pose data comes directly from Gazebo simulator''';
+                goal PIXHAWK_EKF
+                {
+                    uuid:"e4fe0468-b5b7-4b8d-a7f0-632e36c5618a";
+                    info:'''Pixhawk internal EKF3 for pose estimation''';
+                    goal IMU
+                    {
+                        uuid:"0e45f24f-6f41-4462-a404-1c33d1f2d91b";
+                        info:'''Pixhawk IMU is accurate, drift is under threshold during mission duration''';
+                        solution Test_report
+                        {
+                            uuid:"832ee7e5-5bbc-4cc3-8722-4dbe00438047";
+                            info:'''Mission results and post process log''';
+                        }
+                        solution EKF_noise_specification
+                        {
+                            uuid:"98594955-7a82-40c2-8088-1d38b0108f18";
+                            summary:'''EKF2/3 acceptable noise values and limits specified for ArduPilot for the vehicle''';
+                        }
+                    }
+                    goal GPS
+                    {
+                        uuid:"17f89129-996e-49c7-be49-9213bba528e6";
+                        info:'''GPS position is accurate (<5m) when UUV is on the surface, GPS has enough sattelites in view, h/gdop is good''';
+                        solution Test_report
+                        {
+                            uuid:"0a14ff98-f2a1-475f-8f87-d0c1dd8f082f";
+                            info:'''Mission results and post process log''';
+                        }
+                        ref_solution: IMU.EKF_noise_specification;
+                    }
+                    goal DVL
+                    {
+                        uuid:"3cfa6dec-86aa-4b9f-9a6c-deebc1eb9b60";
+                        info:'''DVL measurement is accurate, pose estimation fusing DVL and IMU data with initial GPS position is satisfactory''';
+                        solution Test_report
+                        {
+                            uuid:"1996d787-5999-42e0-a1da-a8d39ca31711";
+                            info:'''Mission results and post process log''';
+                        }
+                        ref_solution: IMU.EKF_noise_specification;
+                    }
+                    goal DEPTH
+                    {
+                        uuid:"510f365b-6c58-4658-b40e-fde2bf2865be";
+                        info:'''Depth measurement (external pressure sensor) is satisfactory''';
+                        solution Test_report
+                        {
+                            uuid:"94c0e9f2-6c23-4f4d-8c17-f15e54083dff";
+                            info:'''Mission results and post process log''';
+                        }
+                        ref_solution: IMU.EKF_noise_specification;
+                    }
+                    goal AUX
+                    {
+                        uuid:"781ee939-d234-434f-b1f5-434e249191cb";
+                        goal OPTICAL_FLOW_A
+                        {
+                            uuid:"863c2049-6f02-4b14-bb07-7f6cda1d780f";
+                            info:'''Optical flow sensor "A" can measure x-y movement for HW robot''';
+                            solution Test_report
+                            {
+                                uuid:"0ea405f8-fad1-4a49-8cdb-40d3365063c3";
+                                info:'''Mission results and post process log''';
+                            }
+                            ref_solution: IMU.EKF_noise_specification;
+                        }
+                        goal OPTICAL_FLOW_B
+                        {
+                            uuid:"d8f2b50b-3690-49b4-8957-9049563a97a0";
+                            info:'''Optical flow sensor "B" can measure y-z movement for HW robot''';
+                            solution Test_report
+                            {
+                                uuid:"f9cc34e7-7b65-4932-b3e2-7f1f8b0f82e0";
+                                info:'''Mission results and post process log''';
+                            }
+                            ref_solution: IMU.EKF_noise_specification;
+                        }
+                    }
+                }
+                goal ROS_EKF
+                {
+                    uuid:"c19fea05-c527-42f0-8f74-93165a020fd6";
+                    info:'''On the HW Robot ROS_EKF estimates pose using IMU data and HSD commands''';
+                    ref_context: contexts.HW;
+                    solution Accuracy
+                    {
+                        uuid:"8ed328e1-34e6-45d5-b299-7a698e672ff5";
+                        info:'''ROS EKF based pose estimation is accurate enough based on the logs''';
+                        artifact:"robot_logfile_log_1";
+                    }
+                    solution EKF_health
+                    {
+                        uuid:"a777b16e-ce13-4cb5-8c7b-497f21e381a9";
+                        summary:'''EKF health calculated by the ROS localization node on the companion computer''';
+                        info:'''EKF is healthy, noise is below threshold''';
+                        artifact:"robot_logfile_log_2";
+                    }
+                }
+            }
+            goal THRUST_RPM_CURVE
+            {
+                uuid:"8ea24f89-0c25-4d9d-9a76-78dfb42691fd";
+                info:'''Thrust/RPM to power curve is correct''';
+                solution Test_report
+                {
+                    uuid:"2808e718-96c3-4917-aac6-718b80f85d9a";
+                    info:'''Check thrust/RPM to power curve to identify propulsion system issues - Check all 6 thrusters''';
+                }
+            }
+            goal IMU_RESONANCE
+            {
+                uuid:"b58a1ca9-577f-4653-90e3-dbea85450e11";
+                info:'''Check IMU resonance during normal operation condition. Resonance (sensor noise) must be under threshold to ensure precise Pose estimation''';
+                solution Test_report
+                {
+                    uuid:"be426910-173c-4ff7-bd73-9ae8e2ff9e1b";
+                    info:'''Mission results and post process log''';
+                }
+            }
+            goal BATTERY_MONITOR
+            {
+                uuid:"3e619bfb-0a54-40bc-a56f-c5ab884233b6";
+                info:'''Battery monitor must be accurate to detect propulsion system issues and ensure mission and uuv safey (Battery low failsafes)''';
+                solution Test_report
+                {
+                    uuid:"e487d70b-6c96-4166-9a5c-2bdf9c5bed98";
+                    info:'''Mission results and post process log''';
+                }
+            }
+            goal INTERNAL_RESOURCE_MONITOR
+            {
+                uuid:"b3f4e40f-4ff4-4734-9541-e200f1cc2411";
+                info:'''System has enough cpu/gpu, memory, google coral node resources left''';
+                solution Test_report
+                {
+                    uuid:"27024648-9ab5-4662-838a-94a22173e033";
+                    info:'''Mission results and post process log''';
+                }
+            }
+        }
+    }
+}

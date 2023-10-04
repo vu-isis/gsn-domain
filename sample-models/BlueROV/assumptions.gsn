@@ -1,0 +1,88 @@
+ASSUMPTIONS assumptions
+{
+    assumption SatisfactorySensors
+    {
+        uuid:'d8bd15f7-6cfd-4827-9eae-073347cddd88';
+        info:'''SENSORS claims are satisfactory''';
+    }
+    assumption DetectSensorFailure
+    {
+        uuid:"dd06035f-b020-4bb3-8f1d-417a95476971";
+        info:'''System can detect sensor failure''';
+    }
+    assumption OneThrusterDegredation
+    {
+        uuid:"2b5b5941-f654-4cae-bcdb-008a1fccefb5";
+        info:'''Only one thruster is degraded and FDIR is operational''';
+    }
+    assumption PerceptionSatisfactory
+    {
+        uuid:"87a47de9-65ba-4692-8630-3fe4e7a0b2ed";
+        info:'''Perception subsystem is satisfactory''';
+    }
+    assumption FDIRSatisfactory
+    {
+        uuid:"1b122ff8-44fc-46a0-b5ce-6c951f7a4d56";
+        info:'''FDIR working as expected''';
+    }
+    assumption ReallocSatisfactory
+    {
+        uuid:"da454bdb-793f-4408-8e63-2b14fb3c9590";
+        info:'''reallocated thrust as expected''';
+    }
+    assumption PoseSatisfactory
+    {
+        uuid:"4364d2de-d724-40ca-a625-e1856efa3be6";
+        info:''' Sensor/Pose subsystem is satisfactory''';
+    }
+    assumption NominalSystem
+    {
+        uuid:"05917f00-18f6-4045-ae16-eb7fe1775e1b";
+        info:'''System is nominal - no degradation present''';
+    }
+    assumption SystemDegraded
+    {
+        uuid:"fa15b4a4-13eb-4444-9e0e-9dfcb78bd632";
+        info:'''System is degraded''';
+    }
+    assumption ObstacleDetected
+    {
+        uuid:"2484da74-39c4-4eb3-ac96-d8c48fd5b2e1";
+        info:'''Obstacle is detected at a safe distance.''';
+    }
+    assumption ObstacleAvoided
+    {
+        uuid:"734e1949-ee33-4a34-be9f-b727bb850790";
+        info:'''Obstacle can be avoided at a safe distance.''';
+    }
+    assumption FLSSatisfactory
+    {
+        uuid:"652a7452-3438-4462-a9cc-2d3b3db5ae74";
+        info:'''FLS working as expected''';
+    }
+    assumption LEC3AMSatisfactory
+    {
+        uuid:"c2304a14-4fbc-4875-91c6-1437516e7ef2";
+        info:'''LEC3AM working as expected''';
+    }
+    assumption SSSSatisfactory
+    {
+        uuid:"91546a64-251f-4f4b-8ffa-8145fc0903ed";
+        info:'''SSS working as expected''';
+    }
+    assumption LEC2AMSatisfactory
+    {
+        uuid:"df3e16a2-6b7c-4b64-bd47-cb6e421ea37b";
+        info:'''LEC2AM working as expected''';
+    }
+    assumption BTMissionExecution
+    {
+        uuid:"bda66baf-f20e-4aff-a43c-40fe6c1ee1ba";
+        info:'''BT Mission execution working as expected''';
+    }
+    assumption RTReachSatisfactory
+    {
+        uuid:"e122fbc9-4230-4f11-9926-bf6ab29f614e";
+        info:'''HAZARDS/REALTIME_REACHABILITY is satisfactory in both nominal and degraded condition''';
+    }
+}

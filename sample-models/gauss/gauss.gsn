@@ -1,0 +1,46 @@
+GOALS gauss
+{
+    goal Statement
+    {
+        uuid:"0d12aa3a-f15f-4fa1-a6d5-3bf10f384b52";
+        summary:'''The sum of the natural numbers less or equal to n equals to Sn = n (n+1) / 2''';
+        strategy Mathematical_Induction
+        {
+            uuid:"50058f1b-ca81-44e2-8520-009098d919d0";
+            summary:'''''';
+            goal Base
+            {
+                uuid:"536ecb68-6461-4ea7-a4d9-303057ec64ec";
+                summary:'''Holds for n = 1''';
+                solution S1
+                {
+                    uuid:"6032c4e1-4e5c-4b21-8638-0e567b02b2de";
+                    summary:'''S1 = 1*( 1+1 ) / 2 = 1''';
+                    status:Approved;
+                }
+            }
+            goal Inductive_Step
+            {
+                uuid:"81ed3af8-85b0-48b7-affc-d6b3319e4697";
+                summary:'''Holds for n = k + 1''';
+                assumption Assuming
+                {
+                    uuid:"d4949b4c-d561-4a2d-8978-ab0441f6a356";
+                    summary:'''Holds for n = k''';
+                }
+                solution Sk_plus_1
+                {
+                    uuid:"5e6b246b-18c2-4d8a-920a-7c914f9f2d65";
+                    summary:'''Sk + 1 = (k + 1)(k + 2)/2
+
+Sk + 1
+= Sk + (k + 1)
+= k*(k + 1) / 2 + (k + 1)
+= (k + 1)*(k + 2) / 2''';
+                    status:NotReviewed;
+                }
+            }
+        }
+        ref_solution: Mathematical_Induction.Base.S1;
+    }
+}

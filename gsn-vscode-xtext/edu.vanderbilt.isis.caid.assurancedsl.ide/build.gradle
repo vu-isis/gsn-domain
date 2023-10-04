@@ -1,0 +1,43 @@
+apply plugin: 'application'
+//plugins {
+//	id 'com.github.johnrengelman.shadow' version '7.1.2'
+//}
+
+dependencies {
+	api project(':edu.vanderbilt.isis.caid.assurancedsl')
+	api "org.eclipse.xtext:org.eclipse.xtext.ide:${xtextVersion}"
+	api "org.eclipse.xtext:org.eclipse.xtext.xbase.ide:${xtextVersion}"
+}
+
+//apply plugin: 'application'
+//apply plugin: 'com.github.johnrengelman.shadow'
+//mainClassName = "org.eclipse.xtext.ide.server.ServerLauncher"
+
+//shadowJar {
+// 	from(project.convention.getPlugin(JavaPluginConvention).sourceSets.main.output)
+// 	configurations = [project.configurations.runtimeClasspath]
+// 	exclude('META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA','schema/*',
+// 		'.options', '.api_description', '*.profile', '*.html', 'about.*', 'about_files/*',
+// 		'plugin.xml', 'systembundle.properties', 'profile.list')
+// 	classifier = 'ls'
+// 	append('plugin.properties')
+// 	mergeServiceFiles()
+// }
+
+// Add a start script for the socket case
+mainClassName = 'edu.vanderbilt.isis.caid.assurancedsl.ide.RunServer'
+startScripts {
+	applicationName = 'gsn-socket'
+}
+
+// Add another start script for the standalone / self-contained case
+task standaloneStartScript(type: CreateStartScripts) {
+	mainClass = 'org.eclipse.xtext.ide.server.ServerLauncher'
+	applicationName = 'gsn-standalone'
+	def t = project.tasks.getByPath('startScripts');
+    classpath = t.classpath;
+    outputDir = t.outputDir;
+}
+
+def t = project.tasks.getByPath('startScripts')
+t.dependsOn(standaloneStartScript) // trigger 'secondaryStartScript' execution automatically

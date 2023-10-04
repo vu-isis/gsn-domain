@@ -1,0 +1,9 @@
+GOALS ns_hardware
+{
+    goal HARDWARE
+    {
+        uuid:"b789ba36-ce0d-4527-a524-02b195dc59c4";
+        info:'''Hardware subsystem - not present in the simulation''';
+        ref_goal: ns_hardware_sensors.SENSORS;
+    }
+}

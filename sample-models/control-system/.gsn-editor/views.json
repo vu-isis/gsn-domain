@@ -1,0 +1,29 @@
+[
+  {
+    "id": "c08bdeb6-b012-41f4-aea5-d08fd1da4b5b",
+    "timestamp": 1695680337006,
+    "expression": "SIL",
+    "includeSubtrees": true,
+    "includeParents": true,
+    "expandAll": false,
+    "highlightMatches": false
+  },
+  {
+    "id": "33c21c44-cf21-49d5-a119-7692283d9e31",
+    "timestamp": 1695680324650,
+    "expression": "SIL_HIGH",
+    "includeSubtrees": true,
+    "includeParents": true,
+    "expandAll": false,
+    "highlightMatches": false
+  },
+  {
+    "id": "1dc19054-b4eb-4e72-839a-9dbef89a9983",
+    "timestamp": 1695680311626,
+    "expression": "SIL_LOW",
+    "includeSubtrees": true,
+    "includeParents": true,
+    "expandAll": false,
+    "highlightMatches": false
+  }
+]

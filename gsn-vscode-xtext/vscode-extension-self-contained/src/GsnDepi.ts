@@ -10,11 +10,7 @@ let log: any;
 let depiExtensionActivated: boolean = false;
 let depiExtensionUnavailable: boolean = false;
 
-const allExtensions: readonly Extension<any>[] = extensions.all;
-
-
 async function tryActivateDepi() {
-    // console.log(allExtensions.map(x => x.id).sort());
     try {
         let depiExtension = extensions.getExtension('vanderbilt.depi');
         if (!depiExtension) {
@@ -34,12 +30,6 @@ async function tryActivateDepi() {
     }
 }
 
-interface GetDirectLinksResult {
-    links: ResourceLink[];
-    resourceUrl: string;
-    resourceGroupUrl: string
-}
-
 export default class GsnDepi {
     localGit = false;
 
@@ -52,7 +42,7 @@ export default class GsnDepi {
         this.dirUri = dirUri;
     }
 
-    _getDepiResourceForNode = async ({ nodeId, uuid }: { nodeId: string, uuid: string }): Promise<Resource> => {
+    _resolveDepiResource = async ({ nodeId, uuid }: { nodeId: string, uuid: string }): Promise<Resource> => {
         const { gitUrl, commitVersion }
             = await getGitResourceInfoFromPath(this.git, this.dirUri, this.localGit, log);
 
@@ -81,79 +71,28 @@ export default class GsnDepi {
             resource.toolId, resource.resourceGroupUrl, resource.url);
 
         if (res.error) {
+            if (res.error.includes('Parent resource not found')) {
+                return [];
+            }
+
             throw new Error(res.error);
         }
 
         return res.result as ResourceLink[];
     };
 
-    _getDirectLinks = async ({ nodeId, uuid }: { nodeId: string, uuid: string }): Promise<GetDirectLinksResult> => {
-        // TODO: Consider better error-handling here. If the command fails one then maybe do similar to
-        // TODO: depiExtensionUnavailable.
-        const { gitUrl }
-            = await getGitResourceInfoFromPath(this.git, this.dirUri, this.localGit, log);
-
-        // Note the leading "/".
-        const resourceUrl = `${CONSTANTS.DEPI.PATH_DIVIDER}${nodeId}`;
-        const resourceGroupName = path.basename(this.dirUri.fsPath);
-        const resourceGroupUrl = `${gitUrl}${CONSTANTS.DEPI.GIT_URL_END_CHAR}${resourceGroupName}`;
-
-        const sourcePattern = {
-            toolId: CONSTANTS.DEPI.TOOL_ID,
-            resourceGroupName,
-            resourceGroupUrl,
-            urlPattern: `^${resourceUrl}$`,
-        };
-
-        const resGroups: CmdResponse = await commands.executeCommand('depi.getResourceGroups');
-
-        if (resGroups.error) {
-            throw new Error(resGroups.error);
-        }
-
-        // TODO: This should be updated to a single entry with an empty target-pattern when fixed in DEPI!!
-        const linkPatterns: { sourcePattern: ResourcePattern, targetPattern: ResourcePattern }[] =
-            (resGroups.result as ResourceGroup[]).map(({ toolId, name: resourceGroupName, url: resourceGroupUrl }) => (
-                {
-                    sourcePattern,
-                    targetPattern: {
-                        toolId,
-                        resourceGroupName,
-                        resourceGroupUrl,
-                        urlPattern: `.*`,
-                    }
-                }));
-
-        const res: CmdResponse = await commands.executeCommand('depi.getLinks', linkPatterns);
-
-        if (res.error) {
-            throw new Error(res.error);
-        }
-
-        return { links: res.result as ResourceLink[], resourceGroupUrl, resourceUrl };
-    }
-
     getEvidenceInfo = async ({ nodeId, uuid }: { nodeId: string, uuid: string }) => {
         if (depiExtensionUnavailable || (!depiExtensionActivated && !await tryActivateDepi())) {
             return CONSTANTS.SOLUTION_DEPI_STATES.DEPI_UNAVAILABLE;
         }
 
-        const resource = await this._getDepiResourceForNode({ nodeId, uuid });
-        
+        const resource = await this._resolveDepiResource({ nodeId, uuid });
         const result = {
             status: CONSTANTS.SOLUTION_DEPI_STATES.NO_LINKED_RESOURCE,
             evidence: []
         };
 
-        let depGraph: ResourceLink[];
-        try {
-            depGraph = await this._getDependencyGraph(resource);
-        } catch (err) {
-            if (err.message.includes('Parent resource not found')) {
-                return result;
-            }
-            throw err;
-        }
+        let depGraph = await this._getDependencyGraph(resource);
 
         if (depGraph.length === 0) {
             return result;
@@ -181,7 +120,7 @@ export default class GsnDepi {
             throw new Error('Depi unreachable!');
         }
 
-        const resource = await this._getDepiResourceForNode({ nodeId, uuid });
+        const resource = await this._resolveDepiResource({ nodeId, uuid });
 
         const selectedOption = await window.showInformationMessage(
             "If you are linking to a resource under git version control and you have a local copy of that resource, " +
@@ -226,10 +165,7 @@ export default class GsnDepi {
             }
         }
 
-        const showResponse: CmdResponse = await commands.executeCommand('depi.showBlackboard');
-        if (showResponse.error) {
-            throw new Error(showResponse.error);
-        }
+        await commands.executeCommand('depi.showBlackboard');
     }
 
     showDependencyGraph = async ({ nodeId, uuid }: { nodeId: string, uuid: string }) => {
@@ -237,7 +173,7 @@ export default class GsnDepi {
             throw new Error('Depi unreachable!');
         }
 
-        const resource = await this._getDepiResourceForNode({ nodeId, uuid });
+        const resource = await this._resolveDepiResource({ nodeId, uuid });
         commands.executeCommand('depi.showDependencyGraph', resource);
     };
 
@@ -254,12 +190,15 @@ export default class GsnDepi {
             throw new Error('Depi unreachable!');
         }
 
+        const resource = await this._resolveDepiResource({ nodeId, uuid });
         // TODO: Use getDependencyGraph
-        const { links, resourceGroupUrl, resourceUrl } = await this._getDirectLinks({ nodeId, uuid });
+        const depGraph = await this._getDependencyGraph(resource);
 
-        const linksToRemove = links.filter((link) =>
-            link.target &&
-            link.source && link.source.resourceGroupUrl === resourceGroupUrl && link.source.url === resourceUrl);
+        const linksToRemove = depGraph.filter((link) =>
+            link.target && link.source &&
+            link.source.toolId === resource.toolId &&
+            link.source.resourceGroupUrl === resource.resourceGroupUrl &&
+            link.source.url === resource.url);
 
 
         const deleteResponse: CmdResponse

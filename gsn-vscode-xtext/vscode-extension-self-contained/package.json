@@ -1,8 +1,8 @@
 {
     "name": "gsn-assurance",
-    "displayName": "GSN Assurance VSCode",
-    "description": "GSN based Assurance DSL for VS Code",
-    "version": "0.12.2",
+    "displayName": "GSN Assurance",
+    "description": "GSN based Assurance DSL and Graphical Editor for VS Code",
+    "version": "0.12.3",
     "publisher": "vu-isis",
     "icon": "images/vanderbilt.jpeg",
     "license": "MIT",

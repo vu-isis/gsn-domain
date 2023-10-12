@@ -4,20 +4,22 @@ This extension includes a grammar and a corresponding language server that facil
 
 In addition to the textual DSL, the extension offers a graphical editor that displays the GSN models as Directed Acyclic Graphs (DAGs).
 
-## Getting started
+# Getting started
 
-### System Requirements
+## System Requirements
 This extension requires a Java 8+ installation available in path as `java` (or via the `JAVA_HOME` env. var).
 A version that's confirmed to work is:
 ```
 openjdk version "11.0.20.1" 2023-08-24
 ```
 
-### Example model
+## Example models
 
 A GSN model consists of one or more `.gsn` files contained in a single folder. Entities can be cross-referenced between files by defining namespaces and reference nodes.
 
 Below, there is a simple example illustrating some entity types (goal, strategy, context). To begin, create a folder named `myModel` and a file named `myModel.gsn`, then copy and paste the model below into that file.
+
+For more examples check out the [sample-models](https://github.com/vu-isis/gsn-domain) under the repository root.
 
 ```
 GOALS gauss
@@ -75,7 +77,7 @@ You can continue to expand on the model using either the graphical editor or the
 perspective within the same VSCode instance will automatically be reflected in the other. (Edits in the textual 
 `.gsn`-files must be saved in order for the editor to pick up the changes.)
 
-### Tutorial Videos
+## Tutorial Videos
 
 These videos were recorded using v0.11.2 of the extension.
 
@@ -83,16 +85,19 @@ These videos were recorded using v0.11.2 of the extension.
  - [References and Multiple files](https://drive.google.com/file/d/1inABqavpEjdJCLV1SQ51h0qOqukZgBie/view?usp=sharing)
  - [State, artifacts, views, labels and groups](https://drive.google.com/file/d/1pdyvSOx9d3fT8w8yGak0XQq0po6GSkZA/view?usp=sharing)
 
-## Public Release History
-### v0.12.0
+# Public Release History
+## v0.12.0
 - Public release of `GSN Assurance` extension for VSCode.
 - `GSN Assurance` extension includes 
     - a Graphical Editor for Assurance models based on GSN
     - an XText based language server that supports the above graphical-editor as well as textual development of GSN based assurance models (`.gsn` files) in VSCode editor. 
 
-### [Known Issues](./faq.md)  
+## [Known Issues](./faq.md)  
 
-## Acknowledgements
+# Acknowledgements
 This work was supported by the DARPA Assured Autonomy program and Air Force Research Laboratory. Any opinions, findings, 
 and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect 
 the views of DARPA or AFRL.
+
+#### Contact
+caid-dev@vanderbilt.edu

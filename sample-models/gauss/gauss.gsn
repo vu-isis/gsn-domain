@@ -41,6 +41,5 @@ Sk + 1
                 }
             }
         }
-        ref_solution: Mathematical_Induction.Base.S1;
     }
 }
